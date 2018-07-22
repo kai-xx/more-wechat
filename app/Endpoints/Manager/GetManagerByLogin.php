@@ -10,7 +10,7 @@ namespace App\Http\Endpoints\Manager;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;
-use App\Manager;
+use App\Models\Manager;
 use Illuminate\Http\Request;
 
 class GetManagerByLogin extends BaseEndpoint

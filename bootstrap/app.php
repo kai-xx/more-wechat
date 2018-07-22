@@ -27,6 +27,9 @@ $app = new Laravel\Lumen\Application(
 
  $app->withEloquent();
 
+//config
+// jwt
+$app->configure('auth');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -84,6 +87,8 @@ $app->singleton(
  $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
+// 添加jwt的服务
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +100,6 @@ $app->register(Illuminate\Redis\RedisServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
-
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {

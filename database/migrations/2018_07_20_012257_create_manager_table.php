@@ -1,5 +1,5 @@
 <?php
-use App\Manager;
+use \App\Models\Manager;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -47,7 +47,10 @@ class CreateManagerTable extends Migration
                 ->comment("父级ID");
             $table->tinyInteger(Manager::DB_FILED_TYPE)
                 ->default(2)
-                ->comment("1管理员2用户");
+                ->comment("1管理员2公众号管理员3用户");
+            $table->string(Manager::DB_FILED_LEVEL_MAP, 128)
+                ->default("")
+                ->comment("层级词典");
             $table->tinyInteger(Manager::DB_FILED_STATE)
                 ->default(1)
                 ->comment("1有效2无效");

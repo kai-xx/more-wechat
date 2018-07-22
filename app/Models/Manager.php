@@ -1,14 +1,21 @@
 <?php
 
 
-namespace App;
+namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Manager extends Model
 {
-
+    use SoftDeletes;
+    /**
+     * 应该被调整为日期的属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
     const TABLE_NAME = 'mb_manager';
     protected $table = self::TABLE_NAME;
 
@@ -24,6 +31,7 @@ class Manager extends Model
     const DB_FILED_EMAIL                = 'email';
     const DB_FILED_QQ                   = 'qq';
     const DB_FILED_WECHAT_NUMBER        = 'wechat_number';
+    const DB_FILED_LEVEL_MAP            = 'level_map';
     const DB_FILED_CREATED_AT           = 'created_at';
     const DB_FILED_UPDATE_AT            = 'update_at';
     const DB_FILED_DELETE_AT            = 'delete_at';
@@ -45,6 +53,7 @@ class Manager extends Model
         self::DB_FILED_EMAIL,
         self::DB_FILED_QQ,
         self::DB_FILED_WECHAT_NUMBER,
+        self::DB_FILED_LEVEL_MAP,
         self::DB_FILED_CREATED_AT,
         self::DB_FILED_UPDATE_AT,
         self::DB_FILED_DELETE_AT,
@@ -57,5 +66,13 @@ class Manager extends Model
      */
     protected $hidden = [
         self::DB_FILED_PASSWORD,
+    ];
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array */
+    protected $guarded = [
+
     ];
 }

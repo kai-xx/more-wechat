@@ -1,5 +1,4 @@
 <?php
-use \Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -10,15 +9,16 @@ use \Illuminate\Http\Request;
 | and give it the Closure to call when that URI is requested.
 |
 */
-
-//$router->get('/', function () use ($router) {
-//    return $router->app->version();
-//});
 $router->group(['prefix' => "api/v1"], function () use ($router) {
-    $router->post("login","Login\LoginController@login");
-    $router->group(['middleware' => ['auth','login-auth']], function () use ($router) {
-        $router->group(['prefix' => 'user'], function () use ($router) {
-            $router->get('index',"User\UserController@index");
+    $router->post('/auth/login', 'Auth\AuthController@login');
+    $router->post('/authtest/login', 'Login\AuthTestController@authenticate');
+
+    $router->group(['middleware' => ['auth']], function () use ($router) {
+        $router->group(['prefix' => 'manager'], function () use ($router) {
+            $router->get('index',"Manager\ManagerController@index");
+            $router->post('store',"Manager\ManagerController@store");
+            $router->put('update/{id}',"Manager\ManagerController@update");
+            $router->delete('delete',"Manager\ManagerController@delete");
         });
     });
 });

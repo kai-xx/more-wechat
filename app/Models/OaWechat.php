@@ -6,7 +6,7 @@
  * Time: 10:08
  */
 
-namespace App;
+namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -57,6 +57,14 @@ class OaWechat extends Model
      * @var array
      */
     protected $hidden = [
+
+    ];
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array */
+    protected $guarded = [
 
     ];
 }

@@ -13,8 +13,16 @@ use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\Manager;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * 用户列表
+ * Class IndexManager
+ * @package App\Endpoints\Manager
+ */
 class IndexManager extends BaseEndpoint
 {
+    /**
+     * @return mixed
+     */
     public function index()
     {
         $filters = [];

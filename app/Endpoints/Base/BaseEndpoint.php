@@ -10,14 +10,30 @@ namespace App\Http\Endpoints\Base;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Auth;
+use App\Models\Manager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+
+/**
+ * Class BaseEndpoint
+ * @package App\Http\Endpoints\Base
+ */
 class BaseEndpoint extends Controller
 {
+    /**
+     *
+     */
     const ARGUMENT_LIMIT = 'limit'; // 分页
+    /**
+     *
+     */
     const ARGUMENT_OFFSET = 'offset'; // 跳过数目
 
     const ARGUMENT_ORDER = 'order';
+    /**
+     * @var Request
+     */
     protected $request;
 
     public function __construct(Request $request)
@@ -26,7 +42,11 @@ class BaseEndpoint extends Controller
 
     }
 
-    public function setAttribute(Model $model)
+    /**
+     * @param Model $model
+     * @return Model
+     */
+    protected function setAttribute(Model $model)
     {
         foreach ($model->getFillable() as $item) {
             if ($this->request->has($item)) {
@@ -35,4 +55,13 @@ class BaseEndpoint extends Controller
         }
         return $model;
     }
+
+    /**
+     * @param Manager $manager
+     * @return bool
+     */
+    protected function verifyOperationPermissions(Manager $manager) {
+        return in_array(Auth::user()->getKey(), explode(',', $manager->{Manager::DB_FILED_LEVEL_MAP}));
+    }
+
 }

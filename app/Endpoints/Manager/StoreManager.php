@@ -13,10 +13,19 @@ use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\Manager;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * 添加用户
+ * Class StoreManager
+ * @package App\Http\Endpoints\Manager
+ */
 class StoreManager extends BaseEndpoint
 {
 
 
+    /**
+     * @return Manager|\Illuminate\Database\Eloquent\Model
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function storeManager()
     {
         $this->validate($this->request,$this->rules());
@@ -35,6 +44,10 @@ class StoreManager extends BaseEndpoint
         return $manager;
     }
 
+    /**
+     * 验证规则
+     * @return array
+     */
     public function rules() {
 
         return [

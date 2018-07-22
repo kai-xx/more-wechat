@@ -18,7 +18,7 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->get('index',"Manager\ManagerController@index");
             $router->post('store',"Manager\ManagerController@store");
             $router->put('update/{id}',"Manager\ManagerController@update");
-            $router->delete('delete',"Manager\ManagerController@delete");
+            $router->delete('delete/{id}',"Manager\ManagerController@delete");
         });
     });
 });

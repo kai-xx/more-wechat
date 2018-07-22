@@ -17,7 +17,7 @@ class ManagerController extends BaseController
     }
     public function store(Request $request)
     {
-        return (new StoreManager($request))->storeManager($request);
+        return (new StoreManager($request))->storeManager();
     }
 
     public function update(Request $request, $id)
@@ -25,7 +25,7 @@ class ManagerController extends BaseController
         return (new UpdateManager($request))->updateManager($id);
     }
 
-    public function detele(Request $request, $id)
+    public function delete(Request $request, $id)
     {
         return (new DeleteManager($request))->delete($id);
     }

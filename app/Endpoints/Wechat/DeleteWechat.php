@@ -6,30 +6,30 @@
  * Time: 下午1:41
  */
 
-namespace App\Endpoints\Manager;
+namespace App\Endpoints\Wechat;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;
-use App\Models\Manager;
+use App\Models\OaWechat;
 
 /**
- * 删除用户
- * Class DeleteManager
- * @package App\Endpoints\Manager
+ * 删除公众号
+ * Class DeleteWechat
+ * @package App\Endpoints\Wechat
  */
-class DeleteManager extends BaseEndpoint
+class DeleteWechat extends BaseEndpoint
 {
     /**
      * @param int $id
      * @return \Illuminate\Http\JsonResponse|int
      */
     public function delete(int $id){
-        $manager = (new Manager())->find($id);
-        if ($manager instanceof Manager) {
-            if (!$this->verifyOperationPermissions($manager))
+        $Wechat = (new OaWechat())->find($id);
+        if ($Wechat instanceof OaWechat) {
+            if (!$this->verifyOperationPermissions($Wechat))
                 return $this->resultForApi(400, [], "非法操作");
 
-            if (Manager::destroy($id)) return $this->resultForApi(200, $id);
+            if (OaWechat::destroy($id)) return $this->resultForApi(200, $id);
             else
                 return $this->resultForApi(400, [], "操作失败");
         } else {

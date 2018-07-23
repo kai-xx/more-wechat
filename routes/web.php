@@ -10,17 +10,21 @@
 |
 */
 $router->group(['prefix' => "api/v1"], function () use ($router) {
-    $router->post('/auth/login', 'Auth\AuthController@login');
-    $router->post('/authtest/login', 'Login\AuthTestController@authenticate');
+    $router->post('/auth/login', 'Api\Auth\AuthController@login');
+    $router->post('/authtest/login', 'Api\Login\AuthTestController@authenticate');
 
-    $router->group(['middleware' => ['auth']], function () use ($router) {
+    $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->group(['prefix' => 'manager'], function () use ($router) {
-            $router->get('index',"Manager\ManagerController@index");
-            $router->post('store',"Manager\ManagerController@store");
-            $router->put('update/{id}',"Manager\ManagerController@update");
-            $router->delete('delete/{id}',"Manager\ManagerController@delete");
+            $router->get('index',"Api\Manager\ManagerController@index");
+            $router->post('store',"Api\Manager\ManagerController@store");
+            $router->put('update/{id}',"Api\Manager\ManagerController@update");
+            $router->delete('delete/{id}',"Api\Manager\ManagerController@delete");
         });
     });
+});
+
+$router->group(['prefix' => "web/v1"], function () use ($router) {
+    $router->get('login', 'Web\Login\LoginController@login');
 });
 
 

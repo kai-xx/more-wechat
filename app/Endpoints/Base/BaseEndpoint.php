@@ -9,8 +9,9 @@
 namespace App\Http\Endpoints\Base;
 
 use Log;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
-use App\Models\Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Manager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -22,14 +23,21 @@ use Illuminate\Http\Request;
 class BaseEndpoint extends Controller
 {
     /**
-     *
-     */
-    const ARGUMENT_LIMIT = 'limit'; // 分页
+    * 关键词
+    */
+    const ARGUMENT_KEYWORD = 'keyword';
     /**
-     *
+     * 分页
      */
-    const ARGUMENT_OFFSET = 'offset'; // 跳过数目
+    const ARGUMENT_LIMIT = 'limit'; //
+    /**
+     * 跳过数目
+     */
+    const ARGUMENT_OFFSET = 'offset'; //
 
+    /**
+     * 排序
+     */
     const ARGUMENT_ORDER = 'order';
     /**
      * @var Request
@@ -65,40 +73,45 @@ class BaseEndpoint extends Controller
         return in_array(Auth::user()->getKey(), explode(',', $manager->{Manager::DB_FILED_LEVEL_MAP}));
     }
 
-    protected $total = 0;
-    protected $perPage = 20;
-    protected $from = 0;
-    protected $data = [];
-    protected $error = "";
+    const RESULT_TOTAL      = 'total';
+    const RESULT_PER_PAGE   = 'perPage';
+    const RESULT_FROM       = 'from';
+    const RESULT_DATA       = 'data';
+    const RESULT_ERROR      = 'error';
+
 
     /**
-     * @param int $code
+     * @param int $status
      * @param $data
-     * @param $total
-     * @param $perPage
-     * @param $from
-     * @param $error
-     * @return $this
+     * @param int $total
+     * @param int $perPage
+     * @param int $from
+     * @param string $error
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function resultForApiWithPagination(int $code, $data ,int $total,int $perPage,int $from, $error){
-        $this->total = $total;
-        $this->perPage = $perPage;
-        $this->from = $from;
-        $this->data = $data;
-        if ($code <> 200) $this->error = $error;
-        return $this;
+    protected function resultForApiWithPagination(int $status = 200, $data , int $total = 0, int $perPage = 20, int $from = 0, $error = ""){
+        $class = new Collection;
+        $class->put(static::RESULT_TOTAL, $total);
+        $class->put(static::RESULT_PER_PAGE, $perPage);
+        $class->put(static::RESULT_FROM, $from);
+        $class->put(static::RESULT_DATA, $data);
+        $class->put(static::RESULT_ERROR, $error);
+
+        return response()->json($class, $status);
     }
 
+
     /**
-     * @param int $code
+     * @param int $status
      * @param $data
-     * @param $error
-     * @return $this
+     * @param string $error
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function resultForApi(int $code, $data, $error){
-        $this->data = $data;
-        if ($code <> 200) $this->error = $error;
-        return $this;
+    protected function resultForApi(int $status = 200, $data, $error = ""){
+        $class = new Collection;
+        $class->put(static::RESULT_DATA, $data);
+        $class->put(static::RESULT_ERROR, $error);
+        return response()->json($class, $status);
     }
     protected function printSQL($callback) {
         app('db')->connection()->enableQueryLog();

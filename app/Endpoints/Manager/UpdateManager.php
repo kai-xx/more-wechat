@@ -12,6 +12,7 @@ namespace App\Endpoints\Manager;
 use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\Manager;
 
+
 /**
  * 编辑用户
  * Class UpdateManager
@@ -39,21 +40,15 @@ class UpdateManager extends BaseEndpoint
         if ($manager instanceof Manager) {
 
             if (!$this->verifyOperationPermissions($manager))
-                return  response()->json([
-                    'error' => '非法操作！'
-                ], 400);
+                return  $this->resultForApi(400, '非法操作');
 
             $manager = $this->setAttribute($manager);
             if ($manager->save())
                 return $manager;
             else
-                return  response()->json([
-                    'error' => '更改失败！'
-                ], 400);
+                return  $this->resultForApi(400, '更改失败');
         } else {
-            return  response()->json([
-                'error' => '信息不存在！'
-            ], 400);
+            return  $this->resultForApi(400, '信息不存在');
         }
     }
 

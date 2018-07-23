@@ -17,6 +17,15 @@ class CreateOaWechatTable extends Migration
             $table->increments(OaWechat::DB_FILED_ID)
                 ->bigIncrements()
                 ->comment("主键ID");
+            $table->string(OaWechat::DB_FILED_LINKMAN, 60)
+                ->default("")
+                ->comment("联系人");
+            $table->string(OaWechat::DB_FILED_PHONE, 16)
+                ->default("")
+                ->comment("联系人电话");
+            $table->string(OaWechat::DB_FILED_ADDRESS)
+                ->default("")
+                ->comment("地址");
             $table->string(OaWechat::DB_FILED_TOKEN)
                 ->default("")
                 ->comment("token");
@@ -36,13 +45,13 @@ class CreateOaWechatTable extends Migration
                 ->default("")
                 ->comment("开发者密码");
             $table->string(OaWechat::DB_FILED_IMAGE)
-                ->default()
+                ->default("")
                 ->comment("公众号头像");
             $table->tinyInteger(OaWechat::DB_FILED_TYPE)
-                ->default()
-                ->comment("公总号类型");
+                ->default(1)
+                ->comment("公众号类型");
             $table->tinyInteger(OaWechat::DB_FILED_STATE)
-                ->default()
+                ->default(1)
                 ->comment("状态1有效2无效");
             $table->softDeletes();
             $table->timestamps();

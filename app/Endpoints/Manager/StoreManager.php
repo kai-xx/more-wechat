@@ -13,6 +13,7 @@ use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\Manager;
 use Illuminate\Support\Facades\Auth;
 
+
 /**
  * 添加用户
  * Class StoreManager
@@ -23,7 +24,7 @@ class StoreManager extends BaseEndpoint
 
 
     /**
-     * @return Manager|\Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function storeManager()
@@ -38,10 +39,15 @@ class StoreManager extends BaseEndpoint
             $password = $manager->getAttribute(Manager::DB_FILED_PASSWORD);
 
         $manager->setAttribute(Manager::DB_FILED_PASSWORD, $password);
+        $manager->setAttribute(Manager::DB_FILED_PARENT_ID, Auth::user()->getKey());
         $manager->save();
         $manager->setAttribute(Manager::DB_FILED_LEVEL_MAP, Auth::user()->{Manager::DB_FILED_LEVEL_MAP} . "," . $manager->getKey());
         $manager->save();
-        return $manager;
+
+        if ($manager)
+            return $this->resultForApi(200, $manager);
+        else
+            return $this->resultForApi(400, [], "操作失败");
     }
 
     /**

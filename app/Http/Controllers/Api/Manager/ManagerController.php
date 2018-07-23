@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Manager;
+namespace App\Http\Controllers\Api\Manager;
 
 use App\Endpoints\Manager\DeleteManager;
 use App\Endpoints\Manager\IndexManager;
 use App\Endpoints\Manager\UpdateManager;
-use App\Http\Controllers\Base\BaseController;
+use App\Http\Controllers\Api\Base\BaseController;
 use App\Http\Endpoints\Manager\StoreManager;
 use Illuminate\Http\Request;
 

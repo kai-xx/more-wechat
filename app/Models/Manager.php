@@ -36,6 +36,13 @@ class Manager extends Model
     const DB_FILED_UPDATE_AT            = 'update_at';
     const DB_FILED_DELETE_AT            = 'delete_at';
 
+    const TYPE_MANAGER                  = 1; // 用户身份： 管理员
+    const TYPE_MIDDLEMAN                = 2; // 用户身份： 中间商
+    const TYPE_OPERATOR                 = 3; // 用户身份： 运营者
+
+
+    const STATE_OPEN                    = 1; // 开启
+    const STATE_CLOSE                   = 2; // 关闭
     /**
      * The attributes that are mass assignable.
      *

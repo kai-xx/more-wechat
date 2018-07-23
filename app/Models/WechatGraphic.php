@@ -1,41 +1,48 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kare
- * Date: 2018/7/20
- * Time: 10:08
- */
+
 
 namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class OaWechat extends Model
+class WechatGraphic extends Model
 {
-    const TABLE_NAME = 'mb_oa_wechat';
+    use SoftDeletes;
+    /**
+     * 应该被调整为日期的属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+    const TABLE_NAME = 'mb_oa_wechat_graphic';
     protected $table = self::TABLE_NAME;
 
+
+
     const DB_FILED_ID                   = 'id';
-    const DB_FILED_TOKEN                = 'token';
-    const DB_FILED_LINKMAN              = 'linkman';
-    const DB_FILED_PHONE                = 'phone';
-    const DB_FILED_ADDRESS              = 'address';
-    const DB_FILED_NAME                 = 'name';
-    const DB_FILED_ORIGINAL_ID          = 'original_id';
-    const DB_FILED_WECHAT_NUMBER        = 'wechat_number';
-    const DB_FILED_APP_ID               = 'app_id';
-    const DB_FILED_APP_SECRET           = 'app_secret';
+    const DB_FILED_OA_WECHAT_ID         = 'oa_wechat_id';
+    const DB_FILED_PARENT_ID            = 'parent_id';
+    const DB_FILED_TITLE                = 'title';
+    const DB_FILED_DETAIL               = 'detail';
+    const DB_FILED_AUTHOR               = 'author';
+    const DB_FILED_PATH                 = 'path';
+    const DB_FILED_REMARK               = 'remark';
     const DB_FILED_TYPE                 = 'type';
-    const DB_FILED_IMAGE                = 'image';
     const DB_FILED_STATE                = 'state';
+
     const DB_FILED_CREATED_AT           = 'created_at';
     const DB_FILED_UPDATE_AT            = 'update_at';
     const DB_FILED_DELETE_AT            = 'delete_at';
 
+    const TYPE_MENU                     = 1; // 类型：菜单
+    const TYPE_KEYWORD                  = 2; // 类型：关键词
+    const TYPE_MESSAGE                  = 3; // 类型：消息
+
+
     const STATE_OPEN                    = 1; // 开启
     const STATE_CLOSE                   = 2; // 关闭
-
     /**
      * The attributes that are mass assignable.
      *
@@ -43,14 +50,14 @@ class OaWechat extends Model
      */
     protected $fillable = [
         self::DB_FILED_ID,
-        self::DB_FILED_TOKEN,
-        self::DB_FILED_NAME,
-        self::DB_FILED_ORIGINAL_ID,
-        self::DB_FILED_WECHAT_NUMBER,
-        self::DB_FILED_APP_ID,
-        self::DB_FILED_APP_SECRET,
+        self::DB_FILED_OA_WECHAT_ID,
+        self::DB_FILED_PARENT_ID,
+        self::DB_FILED_TITLE,
+        self::DB_FILED_DETAIL,
+        self::DB_FILED_AUTHOR,
+        self::DB_FILED_PATH,
+        self::DB_FILED_REMARK,
         self::DB_FILED_TYPE,
-        self::DB_FILED_IMAGE,
         self::DB_FILED_STATE,
         self::DB_FILED_CREATED_AT,
         self::DB_FILED_UPDATE_AT,

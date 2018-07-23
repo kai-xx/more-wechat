@@ -6,7 +6,7 @@
  * Time: 下午12:31
  */
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 
 use App\Http\Controllers\Controller;

@@ -8,7 +8,7 @@
 
 namespace App\Http\Endpoints\Base;
 
-
+use Log;
 use App\Http\Controllers\Controller;
 use App\Models\Auth;
 use App\Models\Manager;
@@ -39,7 +39,8 @@ class BaseEndpoint extends Controller
     public function __construct(Request $request)
     {
         $this->request = $request;
-
+        $token = $this->request->header("Authorization");
+        Log::info("接收到数据为："  , array_merge(['token'=>$token],$this->request->all()));
     }
 
     /**
@@ -64,4 +65,53 @@ class BaseEndpoint extends Controller
         return in_array(Auth::user()->getKey(), explode(',', $manager->{Manager::DB_FILED_LEVEL_MAP}));
     }
 
+    protected $total = 0;
+    protected $perPage = 20;
+    protected $from = 0;
+    protected $data = [];
+    protected $error = "";
+
+    /**
+     * @param int $code
+     * @param $data
+     * @param $total
+     * @param $perPage
+     * @param $from
+     * @param $error
+     * @return $this
+     */
+    protected function resultForApiWithPagination(int $code, $data ,int $total,int $perPage,int $from, $error){
+        $this->total = $total;
+        $this->perPage = $perPage;
+        $this->from = $from;
+        $this->data = $data;
+        if ($code <> 200) $this->error = $error;
+        return $this;
+    }
+
+    /**
+     * @param int $code
+     * @param $data
+     * @param $error
+     * @return $this
+     */
+    protected function resultForApi(int $code, $data, $error){
+        $this->data = $data;
+        if ($code <> 200) $this->error = $error;
+        return $this;
+    }
+    protected function printSQL($callback) {
+        app('db')->connection()->enableQueryLog();
+        $callback;
+        $sql = app('db')->getQueryLog();
+        $query = "";
+        foreach ($sql as $item) {
+            $query = $item['query'];
+            foreach ($item['bindings'] as $replace){
+                $value = is_numeric($replace) ? $replace : "'".$replace."'";
+                $query = preg_replace('/\?/', $value, $query, 1);
+            }
+        }
+        var_dump($query);
+    }
 }

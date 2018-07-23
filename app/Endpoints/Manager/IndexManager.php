@@ -46,6 +46,9 @@ class IndexManager extends BaseEndpoint
             ->offset($limit)
             ->limit($offset)
             ->get();
+        $count = Manager::where($filters)
+            ->whereRaw("find_in_set(?,". Manager::DB_FILED_LEVEL_MAP .")",[Auth::user()->getKey()])
+            ->count();
         $sql = app('db')->getQueryLog();
         $query = "";
         foreach ($sql as $item) {
@@ -55,8 +58,9 @@ class IndexManager extends BaseEndpoint
                 $query = preg_replace('/\?/', $value, $query, 1);
             }
         }
-        var_dump($query);
-
-        return $manager;
+        if ($manager == false)
+            return $this->resultForApiWithPagination(400, $manager, $count, $offset, $limit, "查询失败");
+        else
+            return $this->resultForApiWithPagination(200, $manager, $count, $offset, $limit);
     }
 }

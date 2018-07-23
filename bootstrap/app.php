@@ -89,6 +89,8 @@ $app->singleton(
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 // 添加jwt的服务
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// 日志
+$app->register( \App\Providers\LogServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

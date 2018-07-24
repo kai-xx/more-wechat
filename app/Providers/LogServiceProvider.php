@@ -9,9 +9,16 @@
 
 namespace App\Providers;
 
+use App\Logging\Processor\IntrospectionProcessor;
+use App\Logging\Processor\ProcessIdProcessor;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Log\Logger as Writer;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogHandler;
 use Monolog\Logger as Monolog;
 
 /**
@@ -44,8 +51,14 @@ class LogServiceProvider extends ServiceProvider
      */
     public function createAppLogger()
     {
+        //新增
+        $processors = [
+            new ProcessIdProcessor(),
+            new IntrospectionProcessor()
+        ];
         $log = new Writer(
-            new Monolog($this->channel()), $this->app['events']
+//            new Monolog($this->channel()), $this->app['events']
+             new Monolog($this->channel(), [], $processors), $this->app['events']
         );
         $this->configureHandler($log, 'app');
         return $log;
@@ -58,8 +71,13 @@ class LogServiceProvider extends ServiceProvider
      */
     public function createSqlLogger()
     {
+        //新增
+        $processors = [
+            new ProcessIdProcessor(),
+        ];
         $log = new Writer(
-            new Monolog($this->channel()), $this->app['events']
+//            new Monolog($this->channel()), $this->app['events']
+            new Monolog($this->channel(), [], $processors), $this->app['events']
         );
         $this->configureHandler($log, 'sql');
         return $log;
@@ -96,10 +114,14 @@ class LogServiceProvider extends ServiceProvider
      */
     protected function configureSingleHandler(Writer $log, $base_name)
     {
-        $log->useFiles(
-            sprintf('%s/logs/%s%s.log', $this->app->storagePath(), $this->getFilePrefix(), $base_name),
-            $this->logLevel()
-        );
+//        $log->useFiles(
+//            sprintf('%s/logs/%s%s.log', $this->app->storagePath(), $this->getFilePrefix(), $base_name),
+//            $this->logLevel()
+//        );
+        $path = sprintf('%s/logs/%s%s.log', $this->app->storagePath(), $this->getFilePrefix(), $base_name);
+        $log->pushHandler($handler = new StreamHandler($path, $this->logLevel()));
+
+        $handler->setFormatter($this->getDefaultFormatter());
     }
 
     /**
@@ -111,11 +133,16 @@ class LogServiceProvider extends ServiceProvider
      */
     protected function configureDailyHandler(Writer $log, $base_name)
     {
-        $log->useDailyFiles(
-            sprintf('%s/logs/%s%s.log.%s', $this->app->storagePath(), $this->getFilePrefix(), $base_name, Carbon::now()->format('Ymd')),
-            $this->maxFiles(),
-            $this->logLevel()
+//        $log->useDailyFiles(
+//            sprintf('%s/logs/%s%s.log.%s', $this->app->storagePath(), $this->getFilePrefix(), $base_name, Carbon::now()->format('Ymd')),
+//            $this->maxFiles(),
+//            $this->logLevel()
+//        );
+        $path = sprintf('%s/logs/%s%s.log.%s', $this->app->storagePath(), $this->getFilePrefix(), $base_name, Carbon::now()->format('Ymd'));
+        $log->pushHandler(
+            $handler = new RotatingFileHandler($path, $this->maxFiles(), $this->logLevel())
         );
+        $handler->setFormatter($this->getDefaultFormatter());
     }
 
     /**
@@ -127,7 +154,8 @@ class LogServiceProvider extends ServiceProvider
      */
     protected function configureSyslogHandler(Writer $log, $base_name)
     {
-        $log->useSyslog($base_name, $this->logLevel());
+//        $log->useSyslog($base_name, $this->logLevel());
+        $log->pushHandler(new SyslogHandler($base_name, LOG_USER, $this->logLevel()));
     }
 
     /**
@@ -139,7 +167,11 @@ class LogServiceProvider extends ServiceProvider
      */
     protected function configureErrorlogHandler(Writer $log, $base_name)
     {
-        $log->useErrorLog($this->logLevel());
+//        $log->useErrorLog($this->logLevel());
+        $log->pushHandler(
+            $handler = new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->logLevel())
+        );
+        $handler->setFormatter($this->getDefaultFormatter());
     }
 
     /**
@@ -183,7 +215,15 @@ class LogServiceProvider extends ServiceProvider
 
         return 0;
     }
-
+    /**
+     * Get a default Monolog formatter instance.
+     * 时间精确到微秒
+     * @return \Monolog\Formatter\LineFormatter
+     */
+    protected function getDefaultFormatter()
+    {
+        return new LineFormatter(null, 'Y-m-d H:i:s.u', true, true);
+    }
     /**
      * 获取文件前缀
      *

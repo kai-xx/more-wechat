@@ -24,7 +24,13 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
 });
 
 $router->group(['prefix' => "web/v1"], function () use ($router) {
+    $router->get('home', 'Web\HomeController@home');
     $router->get('login', 'Web\Login\LoginController@login');
+    $router->group(['prefix' => 'manager'], function () use ($router) {
+        $router->get('index', 'Web\Manager\ManagerController@index');
+        $router->get('store', 'Web\Manager\ManagerController@store');
+        $router->get('update', 'Web\Manager\ManagerController@update');
+    });
 });
 
 

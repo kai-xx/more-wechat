@@ -91,6 +91,8 @@ $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 // 日志
 $app->register( \App\Providers\LogServiceProvider::class);
+// options
+//$app->register( \App\Providers\CatchAllOptionsRequestsProvider::class);
 
 /*
 |--------------------------------------------------------------------------

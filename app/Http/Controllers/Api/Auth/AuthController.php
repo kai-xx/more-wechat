@@ -10,21 +10,13 @@ namespace App\Http\Controllers\Api\Auth;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Endpoints\Base\BaseEndpoint;
+use App\Models\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthController extends BaseEndpoint
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        #这个句是官方提供的，还没有验证是否有效
-        #$this->middleware('auth:api', ['except' => ['login']]);
-    }
 
     /**
      * Get a JWT token via given credentials.
@@ -49,7 +41,10 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json($this->guard()->user());
+        $info = $this->guard()->user();
+        $info['roles'] = [$info->{Manager::DB_FILED_NAME}];
+        return response()->json($info, 200);
+
     }
 
     /**
@@ -71,7 +66,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken($this->guard()->refresh());
+        return resultForApi;
     }
 
     /**
@@ -83,8 +78,14 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        \Illuminate\Support\Facades\Log::info("返回数据为："  , [
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            'pid' => getmypid()
+        ]);
         return response()->json([
-            'access_token' => $token,
+            'token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60
         ],200);

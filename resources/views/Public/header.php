@@ -39,6 +39,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <!--  vue js  -->
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -117,6 +119,13 @@
             data: {
                 project_name : 'aaaa',
                 name: 'Hello Vue.js!'
+            },
+            methods: {
+                info : function () {
+                    this.$http.post().then(function (respost) {
+                        respost
+                    });
+                }
             }
         })
     </script>

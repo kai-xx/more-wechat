@@ -66,7 +66,7 @@ class StoreManager extends BaseEndpoint
             Manager::DB_FILED_PHONE => 'required',
             Manager::DB_FILED_EMAIL => 'email',
             Manager::DB_FILED_QQ => 'numeric',
-            Manager::DB_FILED_WECHAT_NUMBER => 'alpha_num'
+            Manager::DB_FILED_WECHAT_NUMBER => ''
         ];
     }
 }

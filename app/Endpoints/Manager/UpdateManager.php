@@ -68,7 +68,7 @@ class UpdateManager extends BaseEndpoint
             Manager::DB_FILED_PHONE => '',
             Manager::DB_FILED_EMAIL => 'email',
             Manager::DB_FILED_QQ => 'numeric',
-            Manager::DB_FILED_WECHAT_NUMBER => 'alpha_num'
+            Manager::DB_FILED_WECHAT_NUMBER => ''
         ];
     }
 }

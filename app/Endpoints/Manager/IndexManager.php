@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class IndexManager extends BaseEndpoint
 {
+    const ARGUMENT_SHOW_DELETE = "showDelete";
     /**
      * @return mixed
      */
@@ -29,7 +30,7 @@ class IndexManager extends BaseEndpoint
         $limit = $this->request->input(static::ARGUMENT_LIMIT);
         $offset = $this->request->input(static::ARGUMENT_OFFSET);
         $order = $this->request->input(static::ARGUMENT_ORDER);
-
+        $showDelete = $this->request->input(static::ARGUMENT_SHOW_DELETE);
         $keyword = $this->request->input(static::ARGUMENT_KEYWORD);
 
         $type = $this->request->input(Manager::DB_FILED_TYPE);
@@ -47,26 +48,28 @@ class IndexManager extends BaseEndpoint
         }
         if ($type) $filters[] = [Manager::DB_FILED_TYPE, "=", $type];
         if ($state) $filters[] = [Manager::DB_FILED_STATE, "=", $state];
-        app('db')->connection()->enableQueryLog();
-        $manager = Manager::where($filters)
-            ->whereRaw($raw,$budding)
-            ->offset($limit)
-            ->limit($offset)
-            ->get();
-        $count = Manager::where($filters)
-            ->whereRaw($raw,$budding)
-            ->count();
-        $sql = app('db')->getQueryLog();
-        $query = "";
-        foreach ($sql as $item) {
-            $query = $item['query'];
-            foreach ($item['bindings'] as $replace){
-                $value = is_numeric($replace) ? $replace : "'".$replace."'";
-                $query = preg_replace('/\?/', $value, $query, 1);
-            }
+        if ($showDelete == "true") {
+            $manager = Manager::onlyTrashed()
+                ->where($filters)
+                ->whereRaw($raw,$budding)
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
+            $count = Manager::onlyTrashed()
+                ->where($filters)
+                ->whereRaw($raw,$budding)
+                ->count();
+        }else{
+            $manager = Manager::where($filters)
+                ->whereRaw($raw,$budding)
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
+            $count = Manager::where($filters)
+                ->whereRaw($raw,$budding)
+                ->count();
         }
-//        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-        var_dump($query);
+
         if ($manager == false)
             return $this->resultForApiWithPagination(400, $manager, $count, $offset, $limit, "查询失败");
         else

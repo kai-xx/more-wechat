@@ -8,6 +8,7 @@
 
 namespace App\Http\Endpoints\Base;
 
+use App\Models\OaWechat;
 use Log;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
@@ -69,6 +70,7 @@ class BaseEndpoint extends Controller
     }
 
     /**
+     * 根据用户信息验证是否有权限操作
      * @param Manager $manager
      * @return bool
      */
@@ -76,6 +78,20 @@ class BaseEndpoint extends Controller
         return in_array(Auth::user()->getKey(), explode(',', $manager->{Manager::DB_FILED_LEVEL_MAP}));
     }
 
+    /**
+     * 根据公众号ID验证是否有权限操作
+     * @param int $wechatId
+     * @return bool
+     */
+    protected function verifyOperationRightsByOaWechatId(int $wechatId) {
+        $wechat = new OaWechat();
+        $wechatInfo = $wechat->find($wechatId);
+        if (!($wechatInfo instanceof OaWechat)) return false;
+        $manager = new Manager();
+        $managerInfo = $manager->find($wechatInfo->{OaWechat::DB_FILED_MANAGER_ID});
+        if (!($managerInfo instanceof Manager)) return false;
+        return $this->verifyOperationPermissions($managerInfo);
+    }
     const RESULT_TOTAL      = 'total';
     const RESULT_PER_PAGE   = 'perPage';
     const RESULT_FROM       = 'from';

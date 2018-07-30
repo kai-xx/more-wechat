@@ -17,6 +17,9 @@ class CreateOaWechatVideoTable extends Migration
             $table->increments(WechatVideo::DB_FILED_ID)
                 ->bigIncrements()
                 ->comment("主键ID");
+            $table->integer(WechatVideo::DB_FILED_MANAGER_ID)
+                ->default(0)
+                ->comment("管理员ID");
             $table->integer(WechatVideo::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->integer(WechatVideo::DB_FILED_PARENT_ID)->default(0)->comment("父级ID");
             $table->string(WechatVideo::DB_FILED_PATH)->default("")->comment("视频路径");

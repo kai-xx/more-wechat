@@ -10,7 +10,7 @@ namespace App\Endpoints\Wechat;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;
-use App\Models\Wechat;
+use App\Models\OaWechat;
 
 /**
  * 编辑公众号
@@ -20,10 +20,10 @@ use App\Models\Wechat;
 class UpdateWechat extends BaseEndpoint
 {
     /**
-     * @return Wechat Wechat
+     * @return OaWechat OaWechat
      */
-    public function Wechat() {
-        return new Wechat();
+    public function oaWechat() {
+        return new OaWechat();
     }
 
     /**
@@ -35,15 +35,15 @@ class UpdateWechat extends BaseEndpoint
     {
         $this->validate($this->request,$this->rules());
 
-        $Wechat = $this->Wechat()->find($id);
-        if ($Wechat instanceof Wechat) {
+        $wechat = $this->oaWechat()->find($id);
+        if ($wechat instanceof OaWechat) {
 
-            if (!$this->verifyOperationPermissions($Wechat))
+            if (!$this->verifyOperationPermissions($wechat))
                 return  $this->resultForApi(400, '非法操作');
 
-            $Wechat = $this->setAttribute($Wechat);
-            if ($Wechat->save())
-                return $Wechat;
+            $wechat = $this->setAttribute($wechat);
+            if ($wechat->save())
+                return $wechat;
             else
                 return  $this->resultForApi(400, '更改失败');
         } else {

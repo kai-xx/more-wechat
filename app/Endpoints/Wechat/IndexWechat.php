@@ -51,7 +51,7 @@ class IndexWechat extends BaseEndpoint
         if ($type) $filters[] = [OaWechat::DB_FILED_TYPE, "=", $type];
         if ($state) $filters[] = [OaWechat::DB_FILED_STATE, "=", $state];
         app('db')->connection()->enableQueryLog();
-        $Wechat = OaWechat::where($filters)
+        $wechat = OaWechat::where($filters)
             ->whereRaw($raw, $budding)
             ->offset($limit)
             ->limit($offset)
@@ -69,9 +69,9 @@ class IndexWechat extends BaseEndpoint
             }
         }
         var_dump($query);
-        if ($Wechat == false)
-            return $this->resultForApiWithPagination(400, $Wechat, $count, $offset, $limit, "查询失败");
+        if ($wechat == false)
+            return $this->resultForApiWithPagination(400, $wechat, $count, $offset, $limit, "查询失败");
         else
-            return $this->resultForApiWithPagination(200, $Wechat, $count, $offset, $limit);
+            return $this->resultForApiWithPagination(200, $wechat, $count, $offset, $limit);
     }
 }

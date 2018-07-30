@@ -17,6 +17,9 @@ class CreateOaWechatGraphicTable extends Migration
             $table->increments(WechatGraphic::DB_FILED_ID)
                 ->bigIncrements()
                 ->comment("主键ID");
+            $table->integer(WechatGraphic::DB_FILED_MANAGER_ID)
+                ->default(0)
+                ->comment("管理员ID");
             $table->integer(WechatGraphic::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->integer(WechatGraphic::DB_FILED_PARENT_ID)->default(0)->comment("父级ID");
             $table->string(WechatGraphic::DB_FILED_TITLE)->default("")->comment("标题");

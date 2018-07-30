@@ -40,15 +40,15 @@ class UpdateManager extends BaseEndpoint
         if ($manager instanceof Manager) {
 
             if (!$this->verifyOperationPermissions($manager))
-                return  $this->resultForApi(400, '非法操作');
+                return  $this->resultForApi(400, [],'非法操作');
 
             $manager = $this->setAttribute($manager);
             if ($manager->save())
-                return $manager;
+                return $this->resultForApi(200, $manager,'');
             else
-                return  $this->resultForApi(400, '更改失败');
+                return  $this->resultForApi(400, [],'更改失败');
         } else {
-            return  $this->resultForApi(400, '信息不存在');
+            return  $this->resultForApi(400, [],'信息不存在');
         }
     }
 

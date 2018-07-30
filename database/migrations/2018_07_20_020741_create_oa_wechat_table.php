@@ -17,6 +17,9 @@ class CreateOaWechatTable extends Migration
             $table->increments(OaWechat::DB_FILED_ID)
                 ->bigIncrements()
                 ->comment("主键ID");
+            $table->integer(OaWechat::DB_FILED_MANAGER_ID)
+                ->default(0)
+                ->comment("管理员ID");
             $table->string(OaWechat::DB_FILED_LINKMAN, 60)
                 ->default("")
                 ->comment("联系人");

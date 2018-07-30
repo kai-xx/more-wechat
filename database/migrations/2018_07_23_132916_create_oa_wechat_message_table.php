@@ -17,6 +17,9 @@ class CreateOaWechatMessageTable extends Migration
             $table->increments(WechatMessage::DB_FILED_ID)
                 ->bigIncrements()
                 ->comment("主键ID");
+            $table->integer(WechatMessage::DB_FILED_MANAGER_ID)
+                ->default(0)
+                ->comment("管理员ID");
             $table->integer(WechatMessage::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->integer(WechatMessage::DB_FILED_PARENT_ID)->default(0)->comment("父级ID");
             $table->tinyInteger(WechatMessage::DB_FILED_TYPE)->default(3)->comment("1文本,2图片,3图文,4链接,5视频,6音频");

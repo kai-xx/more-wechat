@@ -17,6 +17,9 @@ class CreateOaWechatVoiceTable extends Migration
             $table->increments(WechatVoice::DB_FILED_ID)
                 ->bigIncrements()
                 ->comment("主键ID");
+            $table->integer(WechatVoice::DB_FILED_MANAGER_ID)
+                ->default(0)
+                ->comment("管理员ID");
             $table->integer(WechatVoice::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->integer(WechatVoice::DB_FILED_PARENT_ID)->default(0)->comment("父级ID");
             $table->string(WechatVoice::DB_FILED_PATH)->default("")->comment("音频路径");

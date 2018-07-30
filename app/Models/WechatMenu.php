@@ -22,6 +22,7 @@ class WechatMenu extends Model
 
 
     const DB_FILED_ID                  = 'id';
+    const DB_FILED_MANAGER_ID           = 'manager_id';
     const DB_FILED_OA_WECHAT_ID        = 'oa_wechat_id';
     const DB_FILED_PARENT_ID           = 'parent_id';
     const DB_FILED_LEVEL               = 'level';
@@ -46,6 +47,7 @@ class WechatMenu extends Model
      */
     protected $fillable = [
         self::DB_FILED_ID,
+        self::DB_FILED_MANAGER_ID,
         self::DB_FILED_OA_WECHAT_ID,
         self::DB_FILED_PARENT_ID,
         self::DB_FILED_LEVEL,

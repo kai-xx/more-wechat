@@ -17,6 +17,9 @@ class CreateOaWechatKeywordTable extends Migration
             $table->increments(WechatKeyword::DB_FILED_ID)
                 ->bigIncrements()
                 ->comment("主键ID");
+            $table->integer(WechatKeyword::DB_FILED_MANAGER_ID)
+                ->default(0)
+                ->comment("管理员ID");
             $table->integer(WechatKeyword::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->string(WechatKeyword::DB_FILED_KEYWORD)->default("")->comment("关键词");
             $table->string(WechatKeyword::DB_FILED_REMARK)->default("")->comment("备注");

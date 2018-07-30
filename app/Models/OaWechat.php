@@ -29,6 +29,7 @@ class OaWechat extends Model
     const DB_FILED_TYPE                 = 'type';
     const DB_FILED_IMAGE                = 'image';
     const DB_FILED_STATE                = 'state';
+    const DB_FILED_MANAGER_ID           = 'manager_id';
     const DB_FILED_CREATED_AT           = 'created_at';
     const DB_FILED_UPDATE_AT            = 'update_at';
     const DB_FILED_DELETE_AT            = 'delete_at';
@@ -43,6 +44,7 @@ class OaWechat extends Model
      */
     protected $fillable = [
         self::DB_FILED_ID,
+        self::DB_FILED_MANAGER_ID,
         self::DB_FILED_TOKEN,
         self::DB_FILED_NAME,
         self::DB_FILED_ORIGINAL_ID,

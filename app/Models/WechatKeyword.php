@@ -22,6 +22,7 @@ class WechatKeyword extends Model
 
 
     const DB_FILED_ID                  = 'id';
+    const DB_FILED_MANAGER_ID           = 'manager_id';
     const DB_FILED_OA_WECHAT_ID        = 'oa_wechat_id';
     const DB_FILED_KEYWORD             = 'keyword';
     const DB_FILED_TYPE                = 'type';
@@ -49,6 +50,7 @@ class WechatKeyword extends Model
      */
     protected $fillable = [
         self::DB_FILED_ID,
+        self::DB_FILED_MANAGER_ID,
         self::DB_FILED_OA_WECHAT_ID,
         self::DB_FILED_KEYWORD,
         self::DB_FILED_TYPE,

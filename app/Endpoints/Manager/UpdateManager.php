@@ -40,15 +40,15 @@ class UpdateManager extends BaseEndpoint
         if ($manager instanceof Manager) {
 
             if (!$this->verifyOperationPermissions($manager))
-                return  $this->resultForApi(400, [],'非法操作');
+                return  $this->resultForApi(400, '非法操作');
 
             $manager = $this->setAttribute($manager);
             if ($manager->save())
-                return $this->resultForApi(200, $manager,'');
+                return $manager;
             else
-                return  $this->resultForApi(400, [],'更改失败');
+                return  $this->resultForApi(400, '更改失败');
         } else {
-            return  $this->resultForApi(400, [],'信息不存在');
+            return  $this->resultForApi(400, '信息不存在');
         }
     }
 
@@ -68,7 +68,7 @@ class UpdateManager extends BaseEndpoint
             Manager::DB_FILED_PHONE => '',
             Manager::DB_FILED_EMAIL => 'email',
             Manager::DB_FILED_QQ => 'numeric',
-            Manager::DB_FILED_WECHAT_NUMBER => 'alpha_num'
+            Manager::DB_FILED_WECHAT_NUMBER => ''
         ];
     }
 }

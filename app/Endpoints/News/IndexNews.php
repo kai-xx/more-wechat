@@ -34,8 +34,8 @@ class IndexNews extends BaseEndpoint
 
         $type = $this->request->input(WechatGraphic::DB_FILED_TYPE);
         $state = $this->request->input(WechatGraphic::DB_FILED_STATE);
-        $raw = "";
-        $budding = [Auth::user()->getKey()];
+        $raw = "1=1";
+        $budding = [];
         if ($keyword) {
             $raw .= " and (
             " . WechatGraphic::DB_FILED_TITLE ." like ? ";

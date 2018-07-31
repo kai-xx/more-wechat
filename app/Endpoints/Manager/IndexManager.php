@@ -54,6 +54,7 @@ class IndexManager extends BaseEndpoint
                 ->whereRaw($raw,$budding)
                 ->offset($offset)
                 ->limit($limit)
+                ->orderBy(Manager::DB_FILED_ID, 'desc')
                 ->get();
             $count = Manager::onlyTrashed()
                 ->where($filters)
@@ -64,6 +65,7 @@ class IndexManager extends BaseEndpoint
                 ->whereRaw($raw,$budding)
                 ->offset($offset)
                 ->limit($limit)
+                ->orderBy(Manager::DB_FILED_ID, 'desc')
                 ->get();
             $count = Manager::where($filters)
                 ->whereRaw($raw,$budding)

@@ -29,7 +29,15 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->get('index',"Api\Manager\ManagerController@index");
             $router->post('store',"Api\Manager\ManagerController@store");
             $router->put('update/{id}',"Api\Manager\ManagerController@update");
+            $router->get('show/{id}',"Api\Manager\ManagerController@show");
             $router->delete('delete/{id}',"Api\Manager\ManagerController@delete");
+        });
+        $router->group(['prefix' => 'news'], function () use ($router) {
+            $router->get('index',"Api\News\NewsController@index");
+            $router->post('store',"Api\News\NewsController@store");
+            $router->put('update/{id}',"Api\News\NewsController@update");
+            $router->put('show/{id}',"Api\News\NewsController@show");
+            $router->delete('delete/{id}',"Api\News\NewsController@delete");
         });
     });
 });

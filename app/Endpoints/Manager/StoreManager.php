@@ -12,6 +12,7 @@ namespace App\Http\Endpoints\Manager;
 use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\Manager;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 /**
@@ -33,12 +34,13 @@ class StoreManager extends BaseEndpoint
 
         $manager = new Manager();
         $manager = $this->setAttribute($manager);
-        if (is_null($manager->getAttribute(Manager::DB_FILED_PASSWORD)))
+        if (empty($manager->getAttribute(Manager::DB_FILED_PASSWORD)))
             $password = "yd12345678";
         else
             $password = $manager->getAttribute(Manager::DB_FILED_PASSWORD);
 
-        $manager->setAttribute(Manager::DB_FILED_PASSWORD, $password);
+        $manager->setAttribute(Manager::DB_FILED_PASSWORD, Hash::make($password));
+        $manager->setAttribute(Manager::DB_FILED_STATE, Manager::STATE_OPEN);
         $manager->setAttribute(Manager::DB_FILED_PARENT_ID, Auth::user()->getKey());
         $manager->save();
         $manager->setAttribute(Manager::DB_FILED_LEVEL_MAP, Auth::user()->{Manager::DB_FILED_LEVEL_MAP} . "," . $manager->getKey());

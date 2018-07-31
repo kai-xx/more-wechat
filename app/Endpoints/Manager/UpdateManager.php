@@ -65,7 +65,6 @@ class UpdateManager extends BaseEndpoint
             Manager::DB_FILED_LOGIN_NAME => 'alpha_num|between:6,16',
             Manager::DB_FILED_TYPE => '',
             Manager::DB_FILED_STATE => '',
-            Manager::DB_FILED_OA_WECHAT_ID => '',
             Manager::DB_FILED_PARENT_ID => '',
             Manager::DB_FILED_PHONE => '',
             Manager::DB_FILED_EMAIL => 'email',

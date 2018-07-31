@@ -6,7 +6,7 @@
  * Time: 11:04
  */
 
-namespace App\Http\Endpoints\Wechat;
+namespace App\Endpoints\Wechat;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;

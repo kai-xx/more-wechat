@@ -29,6 +29,7 @@ class OaWechat extends Model
     const DB_FILED_TYPE                 = 'type';
     const DB_FILED_IMAGE                = 'image';
     const DB_FILED_STATE                = 'state';
+    const DB_FILED_AUTH_PATH            = 'auth_path';
     const DB_FILED_MANAGER_ID           = 'manager_id';
     const DB_FILED_CREATED_AT           = 'created_at';
     const DB_FILED_UPDATE_AT            = 'update_at';
@@ -54,6 +55,7 @@ class OaWechat extends Model
         self::DB_FILED_TYPE,
         self::DB_FILED_IMAGE,
         self::DB_FILED_STATE,
+        self::DB_FILED_AUTH_PATH,
         self::DB_FILED_CREATED_AT,
         self::DB_FILED_UPDATE_AT,
         self::DB_FILED_DELETE_AT,

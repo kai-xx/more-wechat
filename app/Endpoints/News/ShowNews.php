@@ -24,7 +24,7 @@ class ShowNews extends BaseEndpoint
     {
         $news = $this->news()->find($id);
         if ($news instanceof WechatGraphic) {
-                return $this->resultForApi(200, $news,'信息不存在');
+                return $this->resultForApi(200, $news,'');
         } else {
             return  $this->resultForApi(400, [],'信息不存在');
         }

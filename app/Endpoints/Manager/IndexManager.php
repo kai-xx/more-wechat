@@ -73,8 +73,8 @@ class IndexManager extends BaseEndpoint
         }
 
         if ($manager == false)
-            return $this->resultForApiWithPagination(400, $manager, $count, $offset, $limit, "查询失败");
+            return $this->resultForApiWithPagination(400, $manager, $count, $limit,$offset, "查询失败");
         else
-            return $this->resultForApiWithPagination(200, $manager, $count, $offset, $limit);
+            return $this->resultForApiWithPagination(200, $manager, $count, $limit,$offset);
     }
 }

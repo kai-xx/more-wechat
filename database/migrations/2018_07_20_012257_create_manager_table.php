@@ -39,9 +39,6 @@ class CreateManagerTable extends Migration
             $table->string(Manager::DB_FILED_WECHAT_NUMBER, 128)
                 ->default("")
                 ->comment("微信号");
-            $table->integer(Manager::DB_FILED_OA_WECHAT_ID)
-                ->default(0)
-                ->comment("公众号ID");
             $table->integer(Manager::DB_FILED_PARENT_ID)
                 ->default(0)
                 ->comment("父级ID");

@@ -63,7 +63,6 @@ class StoreManager extends BaseEndpoint
             Manager::DB_FILED_LOGIN_NAME => 'required|alpha_num|between:6,16|unique:' . Manager::TABLE_NAME,
             Manager::DB_FILED_TYPE => 'required',
             Manager::DB_FILED_STATE => '',
-            Manager::DB_FILED_OA_WECHAT_ID => '',
             Manager::DB_FILED_PARENT_ID => '',
             Manager::DB_FILED_PHONE => 'required',
             Manager::DB_FILED_EMAIL => 'email',

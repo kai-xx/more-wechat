@@ -36,8 +36,15 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->get('index',"Api\News\NewsController@index");
             $router->post('store',"Api\News\NewsController@store");
             $router->put('update/{id}',"Api\News\NewsController@update");
-            $router->put('show/{id}',"Api\News\NewsController@show");
+            $router->get('show/{id}',"Api\News\NewsController@show");
             $router->delete('delete/{id}',"Api\News\NewsController@delete");
+        });
+        $router->group(['prefix' => 'wechat'], function () use ($router) {
+            $router->get('index',"Api\Wechat\WechatController@index");
+            $router->post('store',"Api\Wechat\WechatController@store");
+            $router->put('update/{id}',"Api\Wechat\WechatController@update");
+            $router->get('show/{id}',"Api\Wechat\WechatController@show");
+            $router->delete('delete/{id}',"Api\Wechat\WechatController@delete");
         });
     });
 });

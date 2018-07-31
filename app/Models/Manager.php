@@ -25,7 +25,6 @@ class Manager extends Model
     const DB_FILED_PASSWORD             = 'password';
     const DB_FILED_TYPE                 = 'type';
     const DB_FILED_STATE                = 'state';
-    const DB_FILED_OA_WECHAT_ID         = 'oa_wechat_id';
     const DB_FILED_PARENT_ID            = 'parent_id';
     const DB_FILED_PHONE                = 'phone';
     const DB_FILED_EMAIL                = 'email';
@@ -54,7 +53,6 @@ class Manager extends Model
         self::DB_FILED_LOGIN_NAME,
         self::DB_FILED_TYPE,
         self::DB_FILED_STATE,
-        self::DB_FILED_OA_WECHAT_ID,
         self::DB_FILED_PARENT_ID,
         self::DB_FILED_PHONE,
         self::DB_FILED_EMAIL,

@@ -31,9 +31,11 @@ class NewsController extends BaseController
         return (new IndexNews($request))->index();
     }
 
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {

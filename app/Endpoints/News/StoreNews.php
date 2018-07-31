@@ -11,6 +11,7 @@ namespace App\Endpoints\News;
 
 use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\WechatGraphic;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * 添加图文
@@ -27,6 +28,8 @@ class StoreNews extends BaseEndpoint
         $this->validate($this->request,$this->rules());
         $fans = new WechatGraphic();
         $fans = $this->setAttribute($fans);
+        $fans->setAttribute(WechatGraphic::DB_FILED_STATE, WechatGraphic::STATE_OPEN);
+        $fans->setAttribute(WechatGraphic::DB_FILED_MANAGER_ID, Auth::user()->getKey());
         $fans->save();
         if ($fans)
             return $this->resultForApi(200, $fans);

@@ -35,8 +35,8 @@ class IndexWechat extends BaseEndpoint
         $type = $this->request->input(OaWechat::DB_FILED_TYPE);
         $state = $this->request->input(OaWechat::DB_FILED_STATE);
 
-        $raw = "find_in_set(?,". OaWechat::DB_FILED_LEVEL_MAP .")";
-        $budding = [Auth::user()->getKey()];
+        $raw = "1=1";
+        $budding = [];
         if ($keyword) {
             $raw .= " and (
             " . OaWechat::DB_FILED_LINKMAN ." like ? OR 
@@ -50,7 +50,6 @@ class IndexWechat extends BaseEndpoint
         }
         if ($type) $filters[] = [OaWechat::DB_FILED_TYPE, "=", $type];
         if ($state) $filters[] = [OaWechat::DB_FILED_STATE, "=", $state];
-        app('db')->connection()->enableQueryLog();
         $wechat = OaWechat::where($filters)
             ->whereRaw($raw, $budding)
             ->offset($limit)
@@ -59,16 +58,6 @@ class IndexWechat extends BaseEndpoint
         $count = OaWechat::where($filters)
             ->whereRaw($raw, $budding)
             ->count();
-        $sql = app('db')->getQueryLog();
-        $query = "";
-        foreach ($sql as $item) {
-            $query = $item['query'];
-            foreach ($item['bindings'] as $replace){
-                $value = is_numeric($replace) ? $replace : "'".$replace."'";
-                $query = preg_replace('/\?/', $value, $query, 1);
-            }
-        }
-        var_dump($query);
         if ($wechat == false)
             return $this->resultForApiWithPagination(400, $wechat, $count, $offset, $limit, "查询失败");
         else

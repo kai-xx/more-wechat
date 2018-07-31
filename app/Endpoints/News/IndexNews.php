@@ -38,7 +38,7 @@ class IndexNews extends BaseEndpoint
         $budding = [];
         if ($keyword) {
             $raw .= " and (
-            " . WechatGraphic::DB_FILED_TITLE ." like ? ";
+            " . WechatGraphic::DB_FILED_TITLE ." like ? )";
             $budding = array_merge($budding,[
                 "%$keyword%",
             ]);
@@ -47,15 +47,15 @@ class IndexNews extends BaseEndpoint
         if ($state) $filters[] = [WechatGraphic::DB_FILED_STATE, "=", $state];
         $news = WechatGraphic::where($filters)
             ->whereRaw($raw,$budding)
-            ->offset($limit)
-            ->limit($offset)
+            ->offset($offset)
+            ->limit($limit)
             ->get();
         $count = WechatGraphic::where($filters)
             ->whereRaw($raw,$budding)
             ->count();
         if ($news == false)
-            return $this->resultForApiWithPagination(400, $news, $count, $offset, $limit, "查询失败");
+            return $this->resultForApiWithPagination(400, $news, $count, $limit,$offset, "查询失败");
         else
-            return $this->resultForApiWithPagination(200, $news, $count, $offset, $limit);
+            return $this->resultForApiWithPagination(200, $news, $count, $limit, $offset);
     }
 }

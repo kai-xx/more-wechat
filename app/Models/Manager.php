@@ -23,6 +23,7 @@ class Manager extends Model
     const DB_FILED_NAME                 = 'name';
     const DB_FILED_LOGIN_NAME           = 'login_name';
     const DB_FILED_PASSWORD             = 'password';
+    const DB_FILED_HEAD_IMG             = 'head_img';
     const DB_FILED_TYPE                 = 'type';
     const DB_FILED_STATE                = 'state';
     const DB_FILED_PARENT_ID            = 'parent_id';
@@ -51,6 +52,7 @@ class Manager extends Model
         self::DB_FILED_ID,
         self::DB_FILED_NAME,
         self::DB_FILED_LOGIN_NAME,
+        self::DB_FILED_HEAD_IMG,
         self::DB_FILED_TYPE,
         self::DB_FILED_STATE,
         self::DB_FILED_PARENT_ID,

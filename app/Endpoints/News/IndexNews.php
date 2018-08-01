@@ -34,6 +34,7 @@ class IndexNews extends BaseEndpoint
 
         $type = $this->request->input(WechatGraphic::DB_FILED_TYPE);
         $state = $this->request->input(WechatGraphic::DB_FILED_STATE);
+        $wechatId = $this->request->input(WechatGraphic::DB_FILED_OA_WECHAT_ID);
         $raw = "1=1";
         $budding = [];
         if ($keyword) {
@@ -45,6 +46,7 @@ class IndexNews extends BaseEndpoint
         }
         if ($type) $filters[] = [WechatGraphic::DB_FILED_TYPE, "=", $type];
         if ($state) $filters[] = [WechatGraphic::DB_FILED_STATE, "=", $state];
+        if ($wechatId) $filters[] = [WechatGraphic::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $news = WechatGraphic::where($filters)
             ->whereRaw($raw,$budding)
             ->offset($offset)

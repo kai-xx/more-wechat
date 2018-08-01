@@ -46,6 +46,9 @@ class OaWechat extends Model
      */
     protected $fillable = [
         self::DB_FILED_ID,
+        self::DB_FILED_LINKMAN,
+        self::DB_FILED_PHONE  ,
+        self::DB_FILED_ADDRESS,
         self::DB_FILED_MANAGER_ID,
         self::DB_FILED_TOKEN,
         self::DB_FILED_NAME,

@@ -33,6 +33,7 @@ class StoreWechat extends BaseEndpoint
         $wechat = new OaWechat();
         $wechat = $this->setAttribute($wechat);
         $wechat->setAttribute(OaWechat::DB_FILED_MANAGER_ID, Auth::user()->getKey());
+        $wechat->setAttribute(OaWechat::DB_FILED_STATE, OaWechat::STATE_OPEN);
         $wechat->save();
 
         if ($wechat)

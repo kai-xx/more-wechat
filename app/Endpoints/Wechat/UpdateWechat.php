@@ -10,6 +10,7 @@ namespace App\Endpoints\Wechat;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;
+use App\Models\Manager;
 use App\Models\OaWechat;
 
 /**
@@ -37,17 +38,17 @@ class UpdateWechat extends BaseEndpoint
 
         $wechat = $this->oaWechat()->find($id);
         if ($wechat instanceof OaWechat) {
-
-            if (!$this->verifyOperationPermissions($wechat))
-                return  $this->resultForApi(400, '非法操作');
+            $manager = Manager::find($wechat->{OaWechat::DB_FILED_MANAGER_ID});
+            if (!$this->verifyOperationPermissions($manager))
+                return  $this->resultForApi(400, [],'非法操作');
 
             $wechat = $this->setAttribute($wechat);
             if ($wechat->save())
-                return $wechat;
-            else
-                return  $this->resultForApi(400, '更改失败');
+                return  $this->resultForApi(200, $wechat,'');
+        else
+                return  $this->resultForApi(400, [],'更改失败');
         } else {
-            return  $this->resultForApi(400, '信息不存在');
+            return  $this->resultForApi(400, [],'信息不存在');
         }
     }
 
@@ -58,16 +59,7 @@ class UpdateWechat extends BaseEndpoint
     private function rules() {
 
         return [
-            Wechat::DB_FILED_NAME => '',
-            Wechat::DB_FILED_LOGIN_NAME => 'alpha_num|between:6,16|unique:' . Wechat::TABLE_NAME,
-            Wechat::DB_FILED_TYPE => '',
-            Wechat::DB_FILED_STATE => '',
-            Wechat::DB_FILED_OA_WECHAT_ID => '',
-            Wechat::DB_FILED_PARENT_ID => '',
-            Wechat::DB_FILED_PHONE => '',
-            Wechat::DB_FILED_EMAIL => 'email',
-            Wechat::DB_FILED_QQ => 'numeric',
-            Wechat::DB_FILED_WECHAT_NUMBER => 'alpha_num'
+
         ];
     }
 }

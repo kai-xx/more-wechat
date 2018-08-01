@@ -10,6 +10,7 @@ namespace App\Endpoints\News;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;
+use App\Models\OaWechat;
 use App\Models\WechatGraphic;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,11 @@ class StoreNews extends BaseEndpoint
         $this->validate($this->request,$this->rules());
         $fans = new WechatGraphic();
         $fans = $this->setAttribute($fans);
+
+        if (!$this->verifyOperationRightsByOaWechatId($fans->{WechatGraphic::DB_FILED_OA_WECHAT_ID}))
+            return  $this->resultForApi(400, '非法操作');
+
+
         $fans->setAttribute(WechatGraphic::DB_FILED_STATE, WechatGraphic::STATE_OPEN);
         $fans->setAttribute(WechatGraphic::DB_FILED_MANAGER_ID, Auth::user()->getKey());
         $fans->save();
@@ -35,6 +41,8 @@ class StoreNews extends BaseEndpoint
             return $this->resultForApi(200, $fans);
         else
             return $this->resultForApi(400, [], "操作失败");
+
+
     }
     /**
      * 验证规则

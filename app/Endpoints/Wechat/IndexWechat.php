@@ -52,15 +52,15 @@ class IndexWechat extends BaseEndpoint
         if ($state) $filters[] = [OaWechat::DB_FILED_STATE, "=", $state];
         $wechat = OaWechat::where($filters)
             ->whereRaw($raw, $budding)
-            ->offset($limit)
-            ->limit($offset)
+            ->offset($offset)
+            ->limit($limit)
             ->get();
         $count = OaWechat::where($filters)
             ->whereRaw($raw, $budding)
             ->count();
         if ($wechat == false)
-            return $this->resultForApiWithPagination(400, $wechat, $count, $offset, $limit, "查询失败");
+            return $this->resultForApiWithPagination(400, $wechat, $count, $limit, $offset, "查询失败");
         else
-            return $this->resultForApiWithPagination(200, $wechat, $count, $offset, $limit);
+            return $this->resultForApiWithPagination(200, $wechat, $count, $limit, $offset);
     }
 }

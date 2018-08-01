@@ -56,6 +56,7 @@ class CreateOaWechatTable extends Migration
             $table->tinyInteger(OaWechat::DB_FILED_STATE)
                 ->default(1)
                 ->comment("状态1有效2无效");
+            $table->string(OaWechat::DB_FILED_REMARK , 255)->default("")->comment("备注");
             $table->softDeletes();
             $table->timestamps();
         });

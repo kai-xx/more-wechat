@@ -45,6 +45,7 @@ class QueryLogTracker
         $query = preg_replace('/\s+/uD', ' ', $query);
         $query = vsprintf($query, $bindings) . ';';
 
+        app('log')->info("执行sql为：" . $query, [], compact('time'));
         app('sql-log')->debug($query, compact('time'));
     }
 }

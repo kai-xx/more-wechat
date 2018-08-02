@@ -43,6 +43,7 @@ class AuthController extends BaseEndpoint
     {
         $info = $this->guard()->user();
         $info['roles'] = [$info->{Manager::DB_FILED_NAME}];
+        app('log')->info("返回数据为："  , $info->toArray(), compact('time'));
         return response()->json($info, 200);
 
     }
@@ -78,12 +79,12 @@ class AuthController extends BaseEndpoint
      */
     protected function respondWithToken($token)
     {
-        \Illuminate\Support\Facades\Log::info("返回数据为："  , [
+        app('log')->info("返回数据为："  , [
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
-            'pid' => getmypid()
-        ]);
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ], compact('time'));
+
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',

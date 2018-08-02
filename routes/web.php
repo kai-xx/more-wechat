@@ -16,7 +16,10 @@ $router->options("{path:.+}", function () {
         ->header('Access-Control-Allow-Methods','OPTIONS, GET, POST, PUT, DELETE')
         ->header('Access-Control-Allow-Headers', 'Content-Type, Origin');
 });
+$router->get('/test', function () {
+  dd(event(new \App\Events\ExampleEvent(11)));
 
+});
 $router->group(['prefix' => "api/v1"], function () use ($router) {
     $router->post('/auth/login', 'Api\Auth\AuthController@login');
     $router->post('/authtest/login', 'Api\Login\AuthTestController@authenticate');

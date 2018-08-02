@@ -34,6 +34,7 @@ class StoreManager extends BaseEndpoint
 
         $manager = new Manager();
         $manager = $this->setAttribute($manager);
+        $manager->setAttribute(Manager::DB_FILED_PASSWORD, $this->request->input(Manager::DB_FILED_PASSWORD));
         if (empty($manager->getAttribute(Manager::DB_FILED_PASSWORD)))
             $password = "yd12345678";
         else

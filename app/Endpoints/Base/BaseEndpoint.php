@@ -49,10 +49,9 @@ class BaseEndpoint extends Controller
     {
         $this->request = $request;
         $token = $this->request->header("Authorization");
-        \Illuminate\Support\Facades\Log::info("接收到数据为："  , array_merge([
-            'token'=>$token,
-            'pid' => getmypid()
-        ],$this->request->all()));
+        app('log')->info("接收到数据为："  , array_merge([
+            'token'=>$token
+        ],$this->request->all()), compact('time'));
     }
 
     /**
@@ -116,9 +115,7 @@ class BaseEndpoint extends Controller
         $class->put(static::RESULT_FROM, $from);
         $class->put(static::RESULT_DATA, $data);
         $class->put(static::RESULT_ERROR, $error);
-        \Illuminate\Support\Facades\Log::info("返回数据为："  , array_merge([
-            'pid' => getmypid()
-        ],$class->toArray()));
+        app('log')->info("返回数据为："  , $class->toArray(), compact('time'));
         return response()->json($class, $status);
     }
 
@@ -133,9 +130,7 @@ class BaseEndpoint extends Controller
         $class = new Collection;
         $class->put(static::RESULT_DATA, $data);
         $class->put(static::RESULT_ERROR, $error);
-        \Illuminate\Support\Facades\Log::info("返回数据为："  , array_merge([
-            'pid' => getmypid()
-        ],$class->toArray()));
+        app('log')->info("返回数据为："  , $class->toArray(), compact('time'));
         return response()->json($class, $status);
     }
     protected function printSQL($callback) {

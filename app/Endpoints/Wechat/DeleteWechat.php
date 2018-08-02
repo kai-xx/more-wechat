@@ -24,9 +24,9 @@ class DeleteWechat extends BaseEndpoint
      * @return \Illuminate\Http\JsonResponse|int
      */
     public function delete(int $id){
-        $Wechat = (new OaWechat())->find($id);
-        if ($Wechat instanceof OaWechat) {
-            if (!$this->verifyOperationPermissions($Wechat))
+        $wechat = (new OaWechat())->find($id);
+        if ($wechat instanceof OaWechat) {
+            if (!$this->verifyOperationPermissions($wechat))
                 return $this->resultForApi(400, [], "非法操作");
 
             if (OaWechat::destroy($id)) return $this->resultForApi(200, $id);

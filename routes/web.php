@@ -49,6 +49,13 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->get('show/{id}',"Api\Wechat\WechatController@show");
             $router->delete('delete/{id}',"Api\Wechat\WechatController@delete");
         });
+        $router->group(['prefix' => 'message'], function () use ($router) {
+            $router->get('index',"Api\Message\MessageController@index");
+            $router->post('store',"Api\Message\MessageController@store");
+            $router->put('update/{id}',"Api\Message\MessageController@update");
+            $router->get('show/{id}',"Api\Message\MessageController@show");
+            $router->delete('delete/{id}',"Api\Message\MessageController@delete");
+        });
     });
 });
 

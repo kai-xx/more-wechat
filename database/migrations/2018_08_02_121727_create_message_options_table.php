@@ -21,6 +21,9 @@ class CreateMessageOptionsTable extends Migration
             $table->integer(MessageOptions::DB_FILED_MANAGER_ID)
                 ->default(0)
                 ->comment("管理员ID");
+            $table->integer(MessageOptions::DB_FILED_RESOURCE_ID)
+                ->default(0)
+                ->comment("资源ID");
             $table->integer(MessageOptions::DB_FILED_MESSAGE_ID)->default(0)->comment("信息ID");
             $table->tinyInteger(MessageOptions::DB_FILED_TYPE)->default(3)->comment("1文本,2图片,3图文,4链接,5视频,6音频");
             $table->tinyInteger(MessageOptions::DB_FILED_STATE)->default(1)->comment("1开启2关闭");

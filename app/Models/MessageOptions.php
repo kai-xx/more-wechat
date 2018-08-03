@@ -23,6 +23,7 @@ class MessageOptions extends Model
 
     const DB_FILED_ID                  = 'id';
     const DB_FILED_MESSAGE_ID          = 'message_id';
+    const DB_FILED_RESOURCE_ID         = 'resource_id';
     const DB_FILED_MANAGER_ID          = 'manager_id';
     const DB_FILED_TYPE                = 'type';
     const DB_FILED_STATE               = 'state';

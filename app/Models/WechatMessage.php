@@ -56,6 +56,7 @@ class WechatMessage extends Model
      */
     protected $fillable = [
         self::DB_FILED_ID,
+        self::DB_FILED_TITLE,
         self::DB_FILED_MANAGER_ID,
         self::DB_FILED_OA_WECHAT_ID,
         self::DB_FILED_REMARK,

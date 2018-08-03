@@ -24,6 +24,7 @@ class CreateOaWechatMessageTable extends Migration
             $table->tinyInteger(WechatMessage::DB_FILED_TYPE)->default(1)->comment("1普通,2定时");
             $table->tinyInteger(WechatMessage::DB_FILED_IS_PUSH)->default(1)->comment("1未推送2已推送");
             $table->tinyInteger(WechatMessage::DB_FILED_STATE)->default(1)->comment("1开启2关闭");
+            $table->string(WechatMessage::DB_FILED_TITLE,255)->default("")->comment("标题");
             $table->string(WechatMessage::DB_FILED_REMARK,255)->default("")->comment("备注");
             $table->timestamp(WechatMessage::DB_FILED_SEND_AT)->nullable($value = true)->comment("发送时间");
             $table->softDeletes();

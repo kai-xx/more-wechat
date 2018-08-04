@@ -34,6 +34,7 @@ class IndexMessage extends BaseEndpoint
 
         $type = $this->request->input(WechatMessage::DB_FILED_TYPE);
         $state = $this->request->input(WechatMessage::DB_FILED_STATE);
+        $wechatId = $this->request->input(WechatMessage::DB_FILED_OA_WECHAT_ID);
 
         $raw = "1=1";
         $budding = [];
@@ -46,6 +47,7 @@ class IndexMessage extends BaseEndpoint
         }
         if ($type) $filters[] = [WechatMessage::DB_FILED_TYPE, "=", $type];
         if ($state) $filters[] = [WechatMessage::DB_FILED_STATE, "=", $state];
+        if ($wechatId) $filters[] = [WechatMessage::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $wechat = WechatMessage::where($filters)
             ->whereRaw($raw, $budding)
             ->offset($offset)

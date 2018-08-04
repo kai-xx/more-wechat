@@ -27,7 +27,7 @@ class CreateManagerTable extends Migration
             $table->string(Manager::DB_FILED_PASSWORD)
                 ->default("")
                 ->comment("密码");
-            $table->string(Manager::DB_FILED_HEAD_IMG)->default("")->unique()->comment("头像");
+            $table->string(Manager::DB_FILED_HEAD_IMG)->default("")->comment("头像");
 
             $table->string(Manager::DB_FILED_PHONE, 15)
                 ->default("")

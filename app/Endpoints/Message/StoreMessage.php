@@ -41,12 +41,11 @@ class StoreMessage extends BaseEndpoint
                 $message->save();
 
                 $options = $this->request->input('messageArray');
-                $optionsModel = new MessageOptions();
                 foreach ($options as $value){
+                    $optionsModel = new MessageOptions();
                     $optionsModel->{MessageOptions::DB_FILED_RESOURCE_ID} = $value['id'];
                     $optionsModel->{MessageOptions::DB_FILED_MESSAGE_ID} = $message->getKey();
                     $optionsModel->{MessageOptions::DB_FILED_MANAGER_ID} = Auth::user()->getKey();
-                    $optionsModel->{MessageOptions::DB_FILED_TYPE} = $this->request->input('messageType');
                     $optionsModel->save();
                 }
                 return $message;

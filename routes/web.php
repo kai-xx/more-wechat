@@ -56,6 +56,13 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->get('show/{id}',"Api\Message\MessageController@show");
             $router->delete('delete/{id}',"Api\Message\MessageController@delete");
         });
+
+        $router->group(['prefix' => 'fans'], function () use ($router) {
+            $router->get('index',"Api\Fans\FansController@index");
+        });
+        $router->group(['prefix' => 'wechatApi'], function () use ($router) {
+            $router->post('updateFans',"Api\WechatApi\WechatApiController@updateFans");
+        });
     });
 });
 

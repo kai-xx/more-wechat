@@ -75,6 +75,8 @@ class BaseEndpoint extends Controller
      * @return bool
      */
     protected function verifyOperationPermissions(Manager $manager) {
+        if ($manager->{Manager::DB_FILED_STATE} == Manager::STATE_CLOSE)
+            return false;
         return in_array(Auth::user()->getKey(), explode(',', $manager->{Manager::DB_FILED_LEVEL_MAP}));
     }
 

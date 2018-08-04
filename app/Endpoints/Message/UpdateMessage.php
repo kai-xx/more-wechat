@@ -10,8 +10,10 @@ namespace App\Endpoints\Message;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;
-use App\Models\Manager;
+use App\Models\MessageOptions;
 use App\Models\WechatMessage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 编辑消息
@@ -38,15 +40,30 @@ class UpdateMessage extends BaseEndpoint
 
         $message = $this->oaMessage()->find($id);
         if ($message instanceof WechatMessage) {
-            $manager = Manager::find($message->{WechatMessage::DB_FILED_MANAGER_ID});
-            if (!$this->verifyOperationPermissions($manager))
+            if (!$this->verifyOperationRightsByOaWechatId($message->{WechatMessage::DB_FILED_OA_WECHAT_ID}))
                 return  $this->resultForApi(400, [],'非法操作');
 
-            $message = $this->setAttribute($message);
-            if ($message->save())
-                return  $this->resultForApi(200, $message,'');
-        else
+            try {
+                $result = DB::transaction(function () use ($message){
+                    $message = $this->setAttribute($message);
+                    $message->save();
+                    MessageOptions::where(MessageOptions::DB_FILED_MESSAGE_ID, $message->getKey())
+                    ->delete();
+                    $options = $this->request->input('messageArray');
+                    foreach ($options as $value){
+                        $optionsModel = new MessageOptions();
+                        $optionsModel->{MessageOptions::DB_FILED_RESOURCE_ID} = $value['id'];
+                        $optionsModel->{MessageOptions::DB_FILED_MESSAGE_ID} = $message->getKey();
+                        $optionsModel->{MessageOptions::DB_FILED_MANAGER_ID} = Auth::user()->getKey();
+                        $optionsModel->save();
+                    }
+                    return $message;
+                });
+                return  $this->resultForApi(200, $result,'');
+            } catch (\Exception $e) {
+                app('log')->error("更改失败" . $e->getMessage());
                 return  $this->resultForApi(400, [],'更改失败');
+            }
         } else {
             return  $this->resultForApi(400, [],'信息不存在');
         }

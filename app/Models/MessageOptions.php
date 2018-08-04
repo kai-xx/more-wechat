@@ -25,18 +25,11 @@ class MessageOptions extends Model
     const DB_FILED_MESSAGE_ID          = 'message_id';
     const DB_FILED_RESOURCE_ID         = 'resource_id';
     const DB_FILED_MANAGER_ID          = 'manager_id';
-    const DB_FILED_TYPE                = 'type';
     const DB_FILED_STATE               = 'state';
     const DB_FILED_CREATED_AT          = 'created_at';
     const DB_FILED_UPDATE_AT           = 'update_at';
     const DB_FILED_DELETE_AT           = 'delete_at';
 
-    const TYPE_TEXT                    = 1; // 关键词类型：文本
-    const TYPE_IMAGE                   = 2; // 关键词类型：图片
-    const TYPE_GRAPHIC                 = 3; // 关键词类型：图文
-    const TYPE_URI                     = 4; // 关键词类型：链接
-    const TYPE_VIDEO                   = 5; // 关键词类型：视频
-    const TYPE_VOICE                   = 6; // 关键词类型：音频
 
     /**
      * The attributes that are mass assignable.
@@ -47,7 +40,6 @@ class MessageOptions extends Model
         self::DB_FILED_ID,
         self::DB_FILED_MESSAGE_ID,
         self::DB_FILED_MANAGER_ID,
-        self::DB_FILED_TYPE,
         self::DB_FILED_STATE,
         self::DB_FILED_CREATED_AT,
         self::DB_FILED_UPDATE_AT,

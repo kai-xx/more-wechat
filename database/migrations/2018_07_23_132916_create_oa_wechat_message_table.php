@@ -22,6 +22,7 @@ class CreateOaWechatMessageTable extends Migration
                 ->comment("管理员ID");
             $table->integer(WechatMessage::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->tinyInteger(WechatMessage::DB_FILED_TYPE)->default(1)->comment("1普通,2定时");
+            $table->tinyInteger(WechatMessage::DB_FILED_MESSAGE_TYPE)->default(1)->comment("1文本,2图片,3图文,4链接,5视频,6音频");
             $table->tinyInteger(WechatMessage::DB_FILED_IS_PUSH)->default(1)->comment("1未推送2已推送");
             $table->tinyInteger(WechatMessage::DB_FILED_STATE)->default(1)->comment("1开启2关闭");
             $table->string(WechatMessage::DB_FILED_TITLE,255)->default("")->comment("标题");

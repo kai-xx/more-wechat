@@ -1,5 +1,5 @@
 <?php
-
+header('Access-Control-Allow-Origin: *');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -16,18 +16,14 @@ $router->options("{path:.+}", function () {
         ->header('Access-Control-Allow-Methods','OPTIONS, GET, POST, PUT, DELETE')
         ->header('Access-Control-Allow-Headers', 'Content-Type, Origin');
 });
-$router->get('/test', function () {
-  dd(event(new \App\Events\ExampleEvent(11)));
-
-});
 $router->group(['prefix' => "api/v1"], function () use ($router) {
     $router->post('/auth/login', 'Api\Auth\AuthController@login');
     $router->post('/authtest/login', 'Api\Login\AuthTestController@authenticate');
 
+    $router->post('upload','Api\Upload\UploadController@upload');
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->get('/auth/info', 'Api\Auth\AuthController@me');
         $router->post('/auth/logout', 'Api\Auth\AuthController@logout');
-
         $router->group(['prefix' => 'manager'], function () use ($router) {
             $router->get('index',"Api\Manager\ManagerController@index");
             $router->post('store',"Api\Manager\ManagerController@store");

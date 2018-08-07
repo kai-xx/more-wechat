@@ -96,8 +96,40 @@ class BaseApi extends BaseEndpoint
         return $this->http_send("GET", $url, $data);
 
     }
-
+    protected function sendMessageByText($token, $openId, $text){
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $token;
+        $data = [
+            "touser" => $openId,
+            "msgtype" => "text",
+            "text" => [
+                "content" => $text
+            ]
+        ];
+        $header = [
+            "Accept:application/json",
+            "Content-Type:application/json;charset=utf-8"
+        ];
+        return $this->http_send("POST", $url, $data, $header);
+    }
+    protected function sendMessageByNews($token, $openId, $news) {
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $token;
+        $data = [
+            "touser" => $openId,
+            "msgtype" => "news",
+            "news" => [
+                "articles" => $news
+            ]
+        ];
+        $header = [
+            "Accept:application/json",
+            "Content-Type:application/json;charset=utf-8"
+        ];
+        $data = json_encode($data,JSON_UNESCAPED_UNICODE);
+        return $this->http_send("POST", $url, $data, $header);
+    }
     protected function http_send($type,$url,$data, $header = []){
+        app('log')->info("请求微信的URL " . $url);
+        app('log')->info("请求微信数据", is_array($data) ? $data : json_decode($data, true));
         $ch = curl_init();
         //设置选项，包括URL
         curl_setopt($ch, CURLOPT_URL, "$url");
@@ -121,13 +153,10 @@ class BaseApi extends BaseEndpoint
         //释放curl句柄
         curl_close($ch);
 
+        app('log')->info("请求微信返回的数据 " . $output);
         $result = json_decode($output,true);
         if (empty($result)) $this->resultForApi(400,[],'微信对接异常');
         if (isset($result['errcode']) && $result['errcode'] == 40164) return $this->resultForApi(400,[],'服务器IP未在白名单中');
-        if (!isset($result['errcode'])){
-            return $result;
-        } else {
-            return $this->resultForApi(400,[],'微信返回值错误');
-        }
+        return $result;
     }
 }

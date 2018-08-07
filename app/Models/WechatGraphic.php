@@ -29,6 +29,7 @@ class WechatGraphic extends Model
     const DB_FILED_DETAIL               = 'detail';
     const DB_FILED_AUTHOR               = 'author';
     const DB_FILED_PATH                 = 'path';
+    const DB_FILED_URL                  = 'url';
     const DB_FILED_REMARK               = 'remark';
     const DB_FILED_TYPE                 = 'type';
     const DB_FILED_STATE                = 'state';
@@ -58,6 +59,7 @@ class WechatGraphic extends Model
         self::DB_FILED_DETAIL,
         self::DB_FILED_AUTHOR,
         self::DB_FILED_PATH,
+        self::DB_FILED_URL,
         self::DB_FILED_REMARK,
         self::DB_FILED_TYPE,
         self::DB_FILED_STATE,

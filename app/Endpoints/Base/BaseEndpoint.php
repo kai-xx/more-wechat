@@ -133,6 +133,13 @@ class BaseEndpoint extends Controller
         app('log')->info("返回数据为："  , $class->toArray(), compact('time'));
         return response()->json($class, $status);
     }
+
+    protected function absolutePath($path) {
+        if (strpos($path, "http://") === false || strpos($path, "https://") === false ) {
+            return env('APP_URL') . trim($path,'.');
+        }
+        return $path;
+    }
     protected function printSQL($callback) {
         app('db')->connection()->enableQueryLog();
         $callback;

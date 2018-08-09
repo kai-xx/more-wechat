@@ -96,6 +96,14 @@ class BaseApi extends BaseEndpoint
         return $this->http_send("GET", $url, $data);
 
     }
+
+    /**
+     * 发送文字信息
+     * @param $token
+     * @param $openId
+     * @param $text
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
     protected function sendMessageByText($token, $openId, $text){
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $token;
         $data = [
@@ -111,6 +119,14 @@ class BaseApi extends BaseEndpoint
         ];
         return $this->http_send("POST", $url, $data, $header);
     }
+
+    /**
+     * 发送图文信息
+     * @param $token
+     * @param $openId
+     * @param $news
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
     protected function sendMessageByNews($token, $openId, $news) {
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $token;
         $data = [
@@ -127,7 +143,28 @@ class BaseApi extends BaseEndpoint
         $data = json_encode($data,JSON_UNESCAPED_UNICODE);
         return $this->http_send("POST", $url, $data, $header);
     }
-    protected function http_send($type,$url,$data, $header = []){
+
+    /**
+     * 获取公众号已创建的标签
+     * @param $token
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    protected function getFansTags($token)
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/tags/get";
+        $data = [
+            "access_token" => $token
+        ];
+        return $this->http_send("GET", $url, $data);
+    }
+    /**
+     * @param $type
+     * @param $url
+     * @param $data
+     * @param array $header
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    protected function http_send($type, $url, $data, $header = []){
         app('log')->info("请求微信的URL " . $url);
         app('log')->info("请求微信数据", is_array($data) ? $data : json_decode($data, true));
         $ch = curl_init();

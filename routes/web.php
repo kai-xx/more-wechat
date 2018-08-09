@@ -58,6 +58,7 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
         });
         $router->group(['prefix' => 'wechatApi'], function () use ($router) {
             $router->post('updateFans',"Api\WechatApi\WechatApiController@updateFans");
+            $router->post('updateTags',"Api\WechatApi\WechatApiController@updateTags");
             $router->post('sendMessage',"Api\WechatApi\WechatApiController@sendMessage");
         });
     });

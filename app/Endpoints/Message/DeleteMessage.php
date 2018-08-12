@@ -12,6 +12,7 @@ namespace App\Endpoints\Message;
 use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\MessageOptions;
 use App\Models\WechatMessage;
+use App\Models\WechatMessageFansTagOption;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -36,6 +37,10 @@ class DeleteMessage extends BaseEndpoint
                     WechatMessage::destroy($id);
                     MessageOptions::where(MessageOptions::DB_FILED_MESSAGE_ID,$id)
                         ->delete();
+                    WechatMessageFansTagOption::where(WechatMessageFansTagOption::DB_FILED_MESSAGE_ID, $id)
+                        ->update([
+                            WechatMessageFansTagOption::DB_FILED_STATE => WechatMessageFansTagOption::STATE_CLOSE
+                        ]);
                 });
                 return $this->resultForApi(200, $id);
             }catch (\Exception $e) {

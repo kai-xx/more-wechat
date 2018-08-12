@@ -10,6 +10,7 @@ namespace App\Endpoints\WechatApi;
 
 use App\Models\OaWechat;
 use App\Models\WechatFans;
+use App\Models\WechatFansTagOption;
 use Illuminate\Support\Collection;
 
 class UpdateFans extends BaseApi
@@ -52,17 +53,21 @@ class UpdateFans extends BaseApi
                 if (empty($filter)) return;
                 $userInfo = $this->batchGetUserInfo($token, $filter);
                 foreach ($userInfo['user_info_list'] as $user){
+                    if (empty($user)) continue;
+
                     $fansModel = WechatFans::where([
                         WechatFans::DB_FILED_OA_WECHAT_ID => $id,
                         WechatFans::DB_FILED_OPEN_ID => $openId
                     ])->first();
 
-                    if (!$force) {
-                        if ($fansModel instanceof WechatFans) {
+                    if ($fansModel instanceof WechatFans) {
+                        if (!$force) {
                             $this->overlook ++;
                             continue;
                         }
+                    }else{
                         $fansModel = new WechatFans();
+
                     }
 
                     $fansModel->{WechatFans::DB_FILED_SUBSCRIBE} = $user['subscribe'];
@@ -90,6 +95,14 @@ class UpdateFans extends BaseApi
                         }
                     }else {
                         $this->failure ++;
+                    }
+                    WechatFansTagOption::where(WechatFansTagOption::DB_FILED_FANS_ID, $fansModel->getKey())
+                        ->forceDelete();
+                    foreach ($user['tagid_list'] as $tag) {
+                        $tagOption = new WechatFansTagOption();
+                        $tagOption->{WechatFansTagOption::DB_FILED_FANS_ID} = $fansModel->getKey();
+                        $tagOption->{WechatFansTagOption::DB_FILED_TAG_ID} = $tag;
+                        $tagOption->save();
                     }
                 }
             });

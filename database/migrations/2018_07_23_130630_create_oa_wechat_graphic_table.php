@@ -23,11 +23,12 @@ class CreateOaWechatGraphicTable extends Migration
             $table->integer(WechatGraphic::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->integer(WechatGraphic::DB_FILED_PARENT_ID)->default(0)->comment("父级ID");
             $table->string(WechatGraphic::DB_FILED_TITLE)->default("")->comment("标题");
+            $table->string(WechatGraphic::DB_FILED_URL)->default("")->comment("外部链接");
             $table->text(WechatGraphic::DB_FILED_DETAIL)->default("")->comment("详情");
             $table->string(WechatGraphic::DB_FILED_AUTHOR)->default("")->comment("作者");
             $table->string(WechatGraphic::DB_FILED_PATH)->default("")->comment("图片路径");
             $table->string(WechatGraphic::DB_FILED_REMARK)->default("")->comment("备注");
-            $table->tinyInteger(WechatGraphic::DB_FILED_TYPE)->default(3)->comment("1菜单,2关键词,3消息");
+            $table->tinyInteger(WechatGraphic::DB_FILED_TYPE)->default(3)->comment("1文本,2图片,3图文,4链接,5视频,6音频");
             $table->tinyInteger(WechatGraphic::DB_FILED_STATE)->default(1)->comment("1开启2关闭");
             $table->softDeletes();
             $table->timestamps();

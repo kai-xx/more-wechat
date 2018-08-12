@@ -117,6 +117,7 @@ class BaseApi extends BaseEndpoint
             "Accept:application/json",
             "Content-Type:application/json;charset=utf-8"
         ];
+        $data = json_encode($data,JSON_UNESCAPED_UNICODE);
         return $this->http_send("POST", $url, $data, $header);
     }
 

@@ -12,6 +12,7 @@ namespace App\Endpoints\Message;
 use App\Http\Endpoints\Base\BaseEndpoint;
 use App\Models\MessageOptions;
 use App\Models\WechatMessage;
+use App\Models\WechatMessageFansTagOption;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -47,6 +48,14 @@ class StoreMessage extends BaseEndpoint
                     $optionsModel->{MessageOptions::DB_FILED_MESSAGE_ID} = $message->getKey();
                     $optionsModel->{MessageOptions::DB_FILED_MANAGER_ID} = Auth::user()->getKey();
                     $optionsModel->save();
+                }
+
+                $tags = $this->request->input('tags');
+                foreach ($tags as $tag){
+                    $tagOption = new WechatMessageFansTagOption();
+                    $tagOption->{WechatMessageFansTagOption::DB_FILED_MESSAGE_ID} = $message->getKey();
+                    $tagOption->{WechatMessageFansTagOption::DB_FILED_TAG_ID} = $tag;
+                    $tagOption->save();
                 }
                 return $message;
             }, 2);

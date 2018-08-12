@@ -36,7 +36,6 @@ class CreateOaWechatFansTable extends Migration
             $table->double(WechatFans::DB_FILED_PRECISION      , 15, 8)->default(0)->comment("精度");
             $table->double(WechatFans::DB_FILED_UNIONID        , 15, 8)->default(0)->comment("");
             $table->string(WechatFans::DB_FILED_PHONE       , 16)->default("")->comment("电话");
-            $table->string(WechatFans::DB_FILED_TAG_IDS)->default("")->comment("标签");
             $table->tinyInteger(WechatFans::DB_FILED_STATE)->default(1)->comment("1开启2关闭");
             $table->tinyInteger(WechatFans::DB_FILED_SUBSCRIBE)->default(1)->comment("1关注0未关注");
             $table->softDeletes();

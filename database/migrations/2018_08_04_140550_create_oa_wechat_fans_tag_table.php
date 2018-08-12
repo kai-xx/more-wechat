@@ -19,7 +19,7 @@ class CreateOaWechatFansTagTable extends Migration
                 ->comment("主键ID");
             $table->integer(WechatFansTag::DB_FILED_OA_WECHAT_ID)->default(0)->comment("公众号ID");
             $table->integer(WechatFansTag::DB_FILED_TAG_ID)->default(0)->comment("标签ID");
-            $table->string(WechatFansTag::DB_FILED_TAG_NAME)->default("")->unique()->comment("标签名称");
+            $table->string(WechatFansTag::DB_FILED_TAG_NAME)->default("")->comment("标签名称");
             $table->integer(WechatFansTag::DB_FILED_COUNT)->default(0)->comment("fans总数");
             $table->tinyInteger(WechatFansTag::DB_FILED_STATE)->default(1)->comment("1开启2关闭");
             $table->softDeletes();

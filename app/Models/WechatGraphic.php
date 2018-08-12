@@ -38,9 +38,12 @@ class WechatGraphic extends Model
     const DB_FILED_UPDATE_AT            = 'update_at';
     const DB_FILED_DELETE_AT            = 'delete_at';
 
-    const TYPE_MENU                     = 1; // 类型：菜单
-    const TYPE_KEYWORD                  = 2; // 类型：关键词
-    const TYPE_MESSAGE                  = 3; // 类型：消息
+    const TYPE_TEXT                    = 1; // 关键词类型：文本
+    const TYPE_IMAGE                   = 2; // 关键词类型：图片
+    const TYPE_GRAPHIC                 = 3; // 关键词类型：图文
+    const TYPE_URI                     = 4; // 关键词类型：链接
+    const TYPE_VIDEO                   = 5; // 关键词类型：视频
+    const TYPE_VOICE                   = 6; // 关键词类型：音频
 
 
     const STATE_OPEN                    = 1; // 开启

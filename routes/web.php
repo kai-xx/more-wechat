@@ -55,6 +55,7 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
 
         $router->group(['prefix' => 'fans'], function () use ($router) {
             $router->get('index',"Api\Fans\FansController@index");
+            $router->get('tagList',"Api\Fans\FansController@tagList");
         });
         $router->group(['prefix' => 'wechatApi'], function () use ($router) {
             $router->post('updateFans',"Api\WechatApi\WechatApiController@updateFans");

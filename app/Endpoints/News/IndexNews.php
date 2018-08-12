@@ -51,6 +51,7 @@ class IndexNews extends BaseEndpoint
             ->whereRaw($raw,$budding)
             ->offset($offset)
             ->limit($limit)
+            ->orderBy(WechatGraphic::DB_FILED_ID, 'desc')
             ->get();
         $count = WechatGraphic::where($filters)
             ->whereRaw($raw,$budding)

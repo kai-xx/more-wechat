@@ -52,6 +52,7 @@ class IndexMessage extends BaseEndpoint
             ->whereRaw($raw, $budding)
             ->offset($offset)
             ->limit($limit)
+            ->orderBy(WechatMessage::DB_FILED_ID, 'desc')
             ->get();
         $count = WechatMessage::where($filters)
             ->whereRaw($raw, $budding)

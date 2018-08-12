@@ -12,8 +12,10 @@ namespace App\Endpoints\WechatApi;
 use App\Models\MessageOptions;
 use App\Models\OaWechat;
 use App\Models\WechatFans;
+use App\Models\WechatFansTagOption;
 use App\Models\WechatGraphic;
 use App\Models\WechatMessage;
+use App\Models\WechatMessageFansTagOption;
 
 class SendMessage extends BaseApi
 {
@@ -31,9 +33,23 @@ class SendMessage extends BaseApi
             $wechat = OaWechat::find($message->{WechatMessage::DB_FILED_OA_WECHAT_ID});
             $token = $this->getToken($wechat->{OaWechat::DB_FILED_APP_ID}, $wechat->{OaWechat::DB_FILED_APP_SECRET});
             switch ($message->{WechatMessage::DB_FILED_MESSAGE_TYPE}){
+                case 1:
+                    $text = $this->getText($message);
+                    $this->getSendFans($message)
+                        ->each(function ($item) use ($text, $token) {
+                            $result = $this->sendMessageByText($token, $item->{WechatFans::DB_FILED_OPEN_ID}, $text);
+                            if (isset($result['errcode']) && $result['errcode'] == 0){
+                                $this->success ++;
+                            }else{
+                                $this->failure ++;
+                            }
+                        });
+                    break;
+                case 2:
                 case 3:
+                case 4:
                     $news = $this->getNews($message);
-                    $this->getSendFans($message->{WechatMessage::DB_FILED_OA_WECHAT_ID})
+                    $this->getSendFans($message)
                         ->each(function ($item) use ($news, $token) {
                             $result = $this->sendMessageByNews($token, $item->{WechatFans::DB_FILED_OPEN_ID}, $news);
                             if (isset($result['errcode']) && $result['errcode'] == 0){
@@ -54,13 +70,25 @@ class SendMessage extends BaseApi
         }
     }
 
-    private function getSendFans($wechatId) {
-        return WechatFans::where(WechatFans::DB_FILED_OA_WECHAT_ID, $wechatId)
+    private function getSendFans(WechatMessage $message) {
+        $fans =  WechatFans::where(WechatMessageFansTagOption::DB_FILED_MESSAGE_ID, $message->getKey())
+            ->leftJoin(
+                WechatFansTagOption::TABLE_NAME,
+                WechatFansTagOption::DB_FILED_FANS_ID, "=",
+                WechatFans::TABLE_NAME . "." . WechatFans::DB_FILED_ID
+            )
+            ->leftJoin(
+                WechatMessageFansTagOption::TABLE_NAME,
+                WechatMessageFansTagOption::TABLE_NAME. "." .WechatMessageFansTagOption::DB_FILED_TAG_ID, "=",
+                WechatFansTagOption::TABLE_NAME . "." . WechatFansTagOption::DB_FILED_TAG_ID
+            )
+            ->select(WechatFans::TABLE_NAME . ".*")
+            ->groupBy(WechatFans::DB_FILED_ID)
             ->get();
+        return $fans;
     }
-
-    private function getNews($message){
-        $option = MessageOptions::where(MessageOptions::DB_FILED_MESSAGE_ID , $message->getKey())
+    private function getResource(WechatMessage $message){
+        return  MessageOptions::where(MessageOptions::DB_FILED_MESSAGE_ID , $message->getKey())
             ->leftJoin(
                 WechatGraphic::TABLE_NAME,
                 MessageOptions::DB_FILED_RESOURCE_ID, "=",
@@ -69,6 +97,14 @@ class SendMessage extends BaseApi
             ->select(WechatGraphic::TABLE_NAME . ".*")
             ->orderBy(MessageOptions::DB_FILED_ID, "ASC")
             ->get();
+    }
+    private function getText(WechatMessage $message) {
+        $data = $this->getResource($message);
+        return $data->first()->{WechatGraphic::DB_FILED_DETAIL};
+
+    }
+    private function getNews(WechatMessage $message){
+        $option = $this->getResource($message);
         $news = [];
         $option->each(function ($item) use (&$news) {
             $data = [

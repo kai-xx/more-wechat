@@ -24,7 +24,7 @@ class UpdateTags extends BaseApi
     {
         $wechatId = $this->request->input('oa_wechat_id');
         $force = $this->request->input("force");
-        if (empty($id)) return $this->resultForApi(400,[],'请选择公众号');
+        if (empty($wechatId)) return $this->resultForApi(400,[],'请选择公众号');
         $wechat = OaWechat::find($wechatId);
         if (!($wechat instanceof OaWechat)) $this->resultForApi(400,[],'公众号不存在');
         if (!$this->verifyOperationRightsByOaWechatId($wechatId)) $this->resultForApi(400,[],'非法操作');
@@ -32,24 +32,26 @@ class UpdateTags extends BaseApi
         if (is_object($token)) return $token;
 
         $tags = $this->getFansTags($token);
-
         if (isset($tags['errcode']) || !isset($tags['tags'])) {
             app('log')->error("微信接口返回异常:" . $tags['errmsg']);
             return $this->resultForApi(400,[],'微信接口返回异常');
         } else {
             foreach ($tags['tags'] as $value) {
+                if (empty($value)) continue;
                 $tagModel = WechatFansTag::where([
                     WechatFansTag::DB_FILED_OA_WECHAT_ID => $wechatId,
                     WechatFansTag::DB_FILED_TAG_ID => $value['id']
                 ])->first();
 
-                if (!$force) {
-                    if ($tagModel instanceof WechatFansTag) {
+                if ($tagModel instanceof WechatFansTag) {
+                    if (!$force) {
                         $this->overlook ++;
                         continue;
                     }
+                } else {
                     $tagModel = new WechatFansTag();
                 }
+
                 $tagModel->{WechatFansTag::DB_FILED_OA_WECHAT_ID} = $wechatId;
                 $tagModel->{WechatFansTag::DB_FILED_TAG_ID} = $value['id'];
                 $tagModel->{WechatFansTag::DB_FILED_TAG_NAME} = $value['name'];

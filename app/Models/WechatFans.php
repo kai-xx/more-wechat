@@ -38,7 +38,6 @@ class WechatFans extends Model
     const DB_FILED_LONGITUDE            = 'longitude'; // 经度
     const DB_FILED_PRECISION            = 'precision'; // 精度
     const DB_FILED_UNIONID              = 'unionid'; //
-    const DB_FILED_TAG_IDS              = 'tag_ids';
     const DB_FILED_PHONE                = 'phone';
     const DB_FILED_STATE                = 'state';
 
@@ -58,7 +57,6 @@ class WechatFans extends Model
     protected $fillable = [
         self::DB_FILED_ID,
         self::DB_FILED_SUBSCRIBE,
-        self::DB_FILED_TAG_IDS,
         self::DB_FILED_OA_WECHAT_ID,
         self::DB_FILED_OPEN_ID,
         self::DB_FILED_NIKE,

@@ -84,7 +84,6 @@ class UpdateFans extends BaseApi
                         $fansModel->{WechatFans::DB_FILED_REMARK} = $user['remark'];
                         $fansModel->{WechatFans::DB_FILED_GROUPID} = $user['groupid'];
                         $fansModel->{WechatFans::DB_FILED_SUBSCRIBE_SCENE} = $user['subscribe_scene'];
-                        $fansModel->{WechatFans::DB_FILED_TAG_IDS} = implode(',', $user['tagid_list']);
                     }
                     if ($fansModel->save()) {
                         $this->success ++;

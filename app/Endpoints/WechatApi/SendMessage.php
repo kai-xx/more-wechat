@@ -37,7 +37,7 @@ class SendMessage extends BaseApi
                     $text = $this->getText($message);
                     $this->getSendFans($message)
                         ->each(function ($item) use ($text, $token) {
-                            $result = $this->sendMessageByText($token, $item->{WechatFans::DB_FILED_OPEN_ID}, $text);
+                            $result = $this->sendMessageByText($token, $item->{WechatFans::DB_FILED_OPEN_ID}, htmlspecialchars($text));
                             if (isset($result['errcode']) && $result['errcode'] == 0){
                                 $this->success ++;
                             }else{

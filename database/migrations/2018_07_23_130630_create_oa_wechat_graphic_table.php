@@ -25,6 +25,7 @@ class CreateOaWechatGraphicTable extends Migration
             $table->string(WechatGraphic::DB_FILED_TITLE)->default("")->comment("标题");
             $table->string(WechatGraphic::DB_FILED_URL)->default("")->comment("外部链接");
             $table->text(WechatGraphic::DB_FILED_DETAIL)->default("")->comment("详情");
+            $table->text(WechatGraphic::DB_FILED_CONTENT)->default("")->comment("图文详情");
             $table->string(WechatGraphic::DB_FILED_AUTHOR)->default("")->comment("作者");
             $table->string(WechatGraphic::DB_FILED_PATH)->default("")->comment("图片路径");
             $table->string(WechatGraphic::DB_FILED_REMARK)->default("")->comment("备注");

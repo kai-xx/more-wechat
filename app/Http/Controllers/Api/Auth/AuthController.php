@@ -67,7 +67,7 @@ class AuthController extends BaseEndpoint
      */
     public function refresh()
     {
-        return resultForApi;
+        return $this->respondWithToken($this->guard()->refresh());;
     }
 
     /**

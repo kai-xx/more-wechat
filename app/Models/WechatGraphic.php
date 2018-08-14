@@ -27,6 +27,7 @@ class WechatGraphic extends Model
     const DB_FILED_PARENT_ID            = 'parent_id';
     const DB_FILED_TITLE                = 'title';
     const DB_FILED_DETAIL               = 'detail';
+    const DB_FILED_CONTENT              = 'content';
     const DB_FILED_AUTHOR               = 'author';
     const DB_FILED_PATH                 = 'path';
     const DB_FILED_URL                  = 'url';
@@ -60,6 +61,7 @@ class WechatGraphic extends Model
         self::DB_FILED_PARENT_ID,
         self::DB_FILED_TITLE,
         self::DB_FILED_DETAIL,
+        self::DB_FILED_CONTENT,
         self::DB_FILED_AUTHOR,
         self::DB_FILED_PATH,
         self::DB_FILED_URL,

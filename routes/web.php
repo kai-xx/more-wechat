@@ -37,6 +37,7 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->put('update/{id}',"Api\News\NewsController@update");
             $router->get('show/{id}',"Api\News\NewsController@show");
             $router->delete('delete/{id}',"Api\News\NewsController@delete");
+            $router->get('showDetail/{id}',"Api\News\NewsController@showDetail");
         });
         $router->group(['prefix' => 'wechat'], function () use ($router) {
             $router->get('index',"Api\Wechat\WechatController@index");

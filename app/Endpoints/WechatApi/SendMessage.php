@@ -107,10 +107,11 @@ class SendMessage extends BaseApi
         $option = $this->getResource($message);
         $news = [];
         $option->each(function ($item) use (&$news) {
+            $url = $item->{WechatGraphic::DB_FILED_URL};
             $data = [
                 "title" => $item->{WechatGraphic::DB_FILED_TITLE},
                 "description" => $item->{WechatGraphic::DB_FILED_DETAIL},
-                "url" => $item->{WechatGraphic::DB_FILED_URL},
+                "url" => !empty($url) ? $url : (env("WEB_URL") . "/news-detail/" + $item->{WechatGraphic::DB_FILED_ID}),
                 "picurl" => $item->{WechatGraphic::DB_FILED_PATH}
             ];
             $news[] = $data;

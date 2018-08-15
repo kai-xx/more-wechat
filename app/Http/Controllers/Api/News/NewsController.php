@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\News;
 
 use App\Endpoints\News\DeleteNews;
 use App\Endpoints\News\IndexNews;
+use App\Endpoints\News\NewsDetail;
 use App\Endpoints\News\ShowNews;
 use App\Endpoints\News\StoreNews;
 use App\Endpoints\News\UpdateNews;
@@ -74,4 +75,13 @@ class NewsController extends BaseController
         return (new DeleteNews($request))->delete($id);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showDetail(Request $request, $id)
+    {
+        return (new NewsDetail($request))->newsDetail($id);
+    }
 }

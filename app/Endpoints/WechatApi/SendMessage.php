@@ -11,6 +11,7 @@ namespace App\Endpoints\WechatApi;
 
 use App\Models\MessageOptions;
 use App\Models\OaWechat;
+use App\Models\SendMessageLog;
 use App\Models\WechatFans;
 use App\Models\WechatFansTagOption;
 use App\Models\WechatGraphic;
@@ -36,11 +37,13 @@ class SendMessage extends BaseApi
                 case 1:
                     $text = $this->getText($message);
                     $this->getSendFans($message)
-                        ->each(function ($item) use ($text, $token) {
+                        ->each(function ($item) use ($text, $token, $message) {
                             $result = $this->sendMessageByText($token, $item->{WechatFans::DB_FILED_OPEN_ID}, $text);
                             if (isset($result['errcode']) && $result['errcode'] == 0){
+                                $this->writeLog($item, $message, SendMessageLog::STATUS_SUCCESS);
                                 $this->success ++;
                             }else{
+                                $this->writeLog($item, $message, SendMessageLog::STATUS_FALSE, $result['errmsg']);
                                 $this->failure ++;
                             }
                         });
@@ -50,11 +53,13 @@ class SendMessage extends BaseApi
                 case 4:
                     $news = $this->getNews($message);
                     $this->getSendFans($message)
-                        ->each(function ($item) use ($news, $token) {
+                        ->each(function ($item) use ($news, $token, $message) {
                             $result = $this->sendMessageByNews($token, $item->{WechatFans::DB_FILED_OPEN_ID}, $news);
                             if (isset($result['errcode']) && $result['errcode'] == 0){
+                                $this->writeLog($item, $message, SendMessageLog::STATUS_SUCCESS);
                                 $this->success ++;
                             }else{
+                                $this->writeLog($item, $message, SendMessageLog::STATUS_FALSE, $result['errmsg']);
                                 $this->failure ++;
                             }
                         });
@@ -117,5 +122,14 @@ class SendMessage extends BaseApi
             $news[] = $data;
         });
         return $news;
+    }
+
+    private function writeLog(WechatFans $fans, WechatMessage $message, $status, $reason=''){
+        $log = new SendMessageLog();
+        $log->{SendMessageLog::DB_FILED_FANS_ID} = $fans->getKey();
+        $log->{SendMessageLog::DB_FILED_MESSAGE_ID} = $message->getKey();
+        $log->{SendMessageLog::DB_FILED_STATUS} = $status;
+        $log->{SendMessageLog::DB_FILED_REASON} = $reason;
+        return $log;
     }
 }

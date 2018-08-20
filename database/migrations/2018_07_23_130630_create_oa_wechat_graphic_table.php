@@ -31,6 +31,10 @@ class CreateOaWechatGraphicTable extends Migration
             $table->string(WechatGraphic::DB_FILED_REMARK)->default("")->comment("备注");
             $table->tinyInteger(WechatGraphic::DB_FILED_TYPE)->default(3)->comment("1文本,2图片,3图文,4链接,5视频,6音频");
             $table->tinyInteger(WechatGraphic::DB_FILED_STATE)->default(1)->comment("1开启2关闭");
+            $table->string(WechatGraphic::DB_FILED_APPLET_APP_ID)->default("")->comment("小程序appid");
+            $table->string(WechatGraphic::DB_FILED_APPLET_PATH)->default("")->comment("链接");
+            $table->string(WechatGraphic::DB_FILED_APPLET_TEXT)->default("")->comment("小程序文字信息");
+            $table->string(WechatGraphic::DB_FILED_APPLET_URI)->default("")->comment("小程序uri");
             $table->softDeletes();
             $table->timestamps();
         });

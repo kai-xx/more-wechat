@@ -52,6 +52,7 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->put('update/{id}',"Api\Message\MessageController@update");
             $router->get('show/{id}',"Api\Message\MessageController@show");
             $router->delete('delete/{id}',"Api\Message\MessageController@delete");
+            $router->get('sendLog',"Api\Message\MessageController@sendLog");
         });
 
         $router->group(['prefix' => 'fans'], function () use ($router) {

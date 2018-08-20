@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\Message;
 
 use App\Endpoints\Message\DeleteMessage;
 use App\Endpoints\Message\IndexMessage;
+use App\Endpoints\Message\SendLog;
 use App\Endpoints\Message\ShowMessage;
 use App\Endpoints\Message\StoreMessage;
 use App\Endpoints\Message\UpdateMessage;
@@ -34,7 +35,7 @@ class MessageController extends BaseController
 
     /**
      * @param Request $request
-     * @return \App\Models\WechatMessage|\Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -72,5 +73,14 @@ class MessageController extends BaseController
     public function delete(Request $request, $id)
     {
         return (new DeleteMessage($request))->delete($id);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function sendLog(Request $request)
+    {
+        return (new SendLog($request))->index();
     }
 }

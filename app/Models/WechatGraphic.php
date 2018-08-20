@@ -35,6 +35,11 @@ class WechatGraphic extends Model
     const DB_FILED_TYPE                 = 'type';
     const DB_FILED_STATE                = 'state';
 
+    const DB_FILED_APPLET_APP_ID        = 'applet_app_id';
+    const DB_FILED_APPLET_URI           = 'applet_uri';
+    const DB_FILED_APPLET_PATH          = 'applet_path';
+    const DB_FILED_APPLET_TEXT          = 'applet_text';
+
     const DB_FILED_CREATED_AT           = 'created_at';
     const DB_FILED_UPDATE_AT            = 'update_at';
     const DB_FILED_DELETE_AT            = 'delete_at';
@@ -71,6 +76,10 @@ class WechatGraphic extends Model
         self::DB_FILED_CREATED_AT,
         self::DB_FILED_UPDATE_AT,
         self::DB_FILED_DELETE_AT,
+        self::DB_FILED_APPLET_APP_ID,
+        self::DB_FILED_APPLET_URI,
+        self::DB_FILED_APPLET_PATH,
+        self::DB_FILED_APPLET_TEXT
     ];
 
     /**

@@ -158,6 +158,115 @@ class BaseApi extends BaseEndpoint
         ];
         return $this->http_send("GET", $url, $data);
     }
+
+    // 模版消息开始
+
+    /**
+     * 设置所属行业
+     * @param $token
+     * @param $industryId1
+     * @param $industryId2
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    protected function setIndustry($token, $industryId1, $industryId2){
+        $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=" . $token;
+        $data = [
+            "industry_id1" => $industryId1,
+            "industry_id2" => $industryId2
+        ];
+        $header = [
+            "Accept:application/json",
+            "Content-Type:application/json;charset=utf-8"
+        ];
+        $data = json_encode($data,JSON_UNESCAPED_UNICODE);
+        return $this->http_send("POST", $url, $data, $header);
+    }
+
+    /**
+     * 获取设置的行业信息
+     * @param $token
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    protected function getIndustry($token){
+        $url = "https://api.weixin.qq.com/cgi-bin/template/get_industry";
+        $data = [
+            "access_token" => $token
+        ];
+        return $this->http_send("GET", $url, $data);
+    }
+
+    /**
+     * 获取模板列表
+     * @param $token
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    protected function getTemplateList($token)
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template";
+        $data = [
+            "access_token" => $token
+        ];
+        return $this->http_send("GET", $url, $data);
+    }
+    /**
+     * 获得模板ID
+     * @param $token
+     * @param $templateId
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    protected function getTemplateId($token, $templateId)
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=" . $token;
+        $data = [
+            "template_id_short" => $templateId
+        ];
+        $header = [
+            "Accept:application/json",
+            "Content-Type:application/json;charset=utf-8"
+        ];
+        $data = json_encode($data,JSON_UNESCAPED_UNICODE);
+        return $this->http_send("POST", $url, $data, $header);
+    }
+
+    /**
+     * 发送模板消息
+     * @param $token
+     * @param $openId
+     * @param $template_id
+     * @param $uri
+     * @param $appid
+     * @param $papepath
+     * @param $datum
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    protected function sendTemplateMessage($token,
+                                           $openId,
+                                           $template_id,
+                                           $uri,
+                                           $appid,
+                                           $papepath,
+                                           $datum
+    ){
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $token;
+        $data = [
+            "touser"        => $openId,
+            "template_id"   => $template_id,
+            "url"           => $uri,
+            "miniprogram"   => [
+                "appid"     => $appid,
+                "pagepath"  => $papepath
+            ],
+            "data" => $datum
+        ];
+        $header = [
+            "Accept:application/json",
+            "Content-Type:application/json;charset=utf-8"
+        ];
+        $data = json_encode($data,JSON_UNESCAPED_UNICODE);
+        return $this->http_send("POST", $url, $data, $header);
+    }
+    // 模版消息结束
+
     /**
      * @param $type
      * @param $url

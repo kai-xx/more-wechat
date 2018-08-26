@@ -130,6 +130,7 @@ class SendMessage extends BaseApi
         $log->{SendMessageLog::DB_FILED_MESSAGE_ID} = $message->getKey();
         $log->{SendMessageLog::DB_FILED_STATUS} = $status;
         $log->{SendMessageLog::DB_FILED_REASON} = $reason;
+        $log->save();
         return $log;
     }
 }

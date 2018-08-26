@@ -63,6 +63,15 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->post('updateFans',"Api\WechatApi\WechatApiController@updateFans");
             $router->post('updateTags',"Api\WechatApi\WechatApiController@updateTags");
             $router->post('sendMessage',"Api\WechatApi\WechatApiController@sendMessage");
+            $router->post('updateIndustry',"Api\WechatApi\WechatApiController@updateIndustry");
+            $router->post('sendIndustryMessage',"Api\WechatApi\WechatApiController@sendIndustryMessage");
+        });
+
+        $router->group(['prefix' => 'industry'], function () use ($router) {
+            $router->get('index',"Api\IndustryMessage\IndustryMessageController@index");
+            $router->get('sendLog',"Api\IndustryMessage\IndustryMessageController@sendLog");
+            $router->put('update/{id}',"Api\IndustryMessage\IndustryMessageController@update");
+            $router->get('show/{id}',"Api\IndustryMessage\IndustryMessageController@show");
         });
     });
 });

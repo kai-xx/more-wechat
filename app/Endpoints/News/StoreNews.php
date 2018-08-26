@@ -10,7 +10,6 @@ namespace App\Endpoints\News;
 
 
 use App\Http\Endpoints\Base\BaseEndpoint;
-use App\Models\OaWechat;
 use App\Models\WechatGraphic;
 use Illuminate\Support\Facades\Auth;
 

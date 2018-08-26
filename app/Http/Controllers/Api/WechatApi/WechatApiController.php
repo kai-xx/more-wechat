@@ -9,8 +9,10 @@
 namespace App\Http\Controllers\Api\WechatApi;
 
 
+use App\Endpoints\WechatApi\SendIndustryMessage;
 use App\Endpoints\WechatApi\SendMessage;
 use App\Endpoints\WechatApi\UpdateFans;
+use App\Endpoints\WechatApi\UpdateIndustry;
 use App\Endpoints\WechatApi\UpdateTags;
 use App\Http\Controllers\Api\Base\BaseController;
 use Illuminate\Http\Request;
@@ -46,5 +48,23 @@ class WechatApiController extends BaseController
     public function sendMessage(Request $request)
     {
         return (new SendMessage($request))->sendMessage();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateIndustry(Request $request)
+    {
+        return (new UpdateIndustry($request))->updateIndustry();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendIndustryMessage(Request $request)
+    {
+        return (new SendIndustryMessage($request))->sendMessage();
     }
 }

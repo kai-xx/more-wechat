@@ -98,7 +98,7 @@ class BaseEndpoint extends Controller
     const RESULT_PER_PAGE   = 'perPage';
     const RESULT_FROM       = 'from';
     const RESULT_DATA       = 'data';
-    const RESULT_ERROR      = 'error';
+    const RESULT_ERROR      = 'message';
 
 
     /**

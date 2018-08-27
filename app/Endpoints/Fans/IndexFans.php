@@ -38,8 +38,6 @@ class IndexFans extends BaseEndpoint
         $wechatIds = $this->request->input('wechatIds');
         if (empty($wechatIds) && !in_array($wechatId, $wechatIds)) {
             return $this->resultForApiWithPagination(200, [], 0, $limit, $offset);
-        } else {
-            $filters[] = [WechatFans::DB_FILED_OA_WECHAT_ID, "in", $wechatIds];
         }
         $raw = "1=1";
         $budding = [];
@@ -53,6 +51,7 @@ class IndexFans extends BaseEndpoint
         if ($state) $filters[] = [WechatFans::DB_FILED_STATE, "=", $state];
         if ($wechatId) $filters[] = [WechatFans::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $fans = WechatFans::where($filters)
+            ->whereIn(WechatFans::DB_FILED_ID, $wechatIds)
             ->whereRaw($raw,$budding)
             ->offset($offset)
             ->limit($limit)

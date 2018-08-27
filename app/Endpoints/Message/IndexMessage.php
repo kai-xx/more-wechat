@@ -38,8 +38,6 @@ class IndexMessage extends BaseEndpoint
         $wechatIds = $this->request->input('wechatIds');
         if (empty($wechatIds) && !in_array($wechatId, $wechatIds)) {
             return $this->resultForApiWithPagination(200, [], 0, $limit, $offset);
-        } else {
-            $filters[] = [WechatMessage::DB_FILED_OA_WECHAT_ID, "in", $wechatIds];
         }
         $raw = "1=1";
         $budding = [];
@@ -54,6 +52,7 @@ class IndexMessage extends BaseEndpoint
         if ($state) $filters[] = [WechatMessage::DB_FILED_STATE, "=", $state];
         if ($wechatId) $filters[] = [WechatMessage::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $wechat = WechatMessage::where($filters)
+            ->whereIn(WechatMessage::DB_FILED_ID, $wechatIds)
             ->whereRaw($raw, $budding)
             ->offset($offset)
             ->limit($limit)

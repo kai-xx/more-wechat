@@ -52,17 +52,6 @@ class BaseEndpoint extends Controller
         app('log')->info("接收到数据为："  , array_merge([
             'token'=>$token
         ],$this->request->all()), compact('time'));
-        $raw = "find_in_set(?,". Manager::DB_FILED_LEVEL_MAP .")";
-        $budding = [Auth::user()->getKey()];
-        $wechat = OaWechat::whereRaw($raw,$budding)
-            ->leftJoin(
-                Manager::TABLE_NAME,
-                Manager::DB_FILED_ID, "=",
-                OaWechat::TABLE_NAME . "." . OaWechat::DB_FILED_MANAGER_ID
-            )
-            ->select(OaWechat::TABLE_NAME . ".*")
-            ->get();
-        $this->request->offsetSet('wechatIds',$wechat->pluck(OaWechat::DB_FILED_ID));
     }
 
     /**

@@ -35,6 +35,12 @@ class IndexNews extends BaseEndpoint
         $type = $this->request->input(WechatGraphic::DB_FILED_TYPE);
         $state = $this->request->input(WechatGraphic::DB_FILED_STATE);
         $wechatId = $this->request->input(WechatGraphic::DB_FILED_OA_WECHAT_ID);
+        $wechatIds = $this->request->input('wechatIds');
+        if (empty($wechatIds) && !in_array($wechatId, $wechatIds)) {
+            return $this->resultForApiWithPagination(200, [], 0, $limit, $offset);
+        } else {
+            $filters[] = [WechatGraphic::DB_FILED_OA_WECHAT_ID, "in", $wechatIds];
+        }
         $raw = "1=1";
         $budding = [];
         if ($keyword) {

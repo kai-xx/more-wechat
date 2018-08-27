@@ -42,6 +42,12 @@ class IndexTags extends BaseEndpoint
         }else{
             $wechatId = $this->request->input(WechatFansTag::DB_FILED_OA_WECHAT_ID);
         }
+        $wechatIds = $this->request->input('wechatIds');
+        if (empty($wechatIds) && !in_array($wechatId, $wechatIds)) {
+            return $this->resultForApiWithPagination(200, [], 0, $limit, $offset);
+        } else {
+            $filters[] = [WechatMessage::DB_FILED_OA_WECHAT_ID, "in", $wechatIds];
+        }
         $raw = "1=1";
         $budding = [];
         if ($keyword) {

@@ -26,6 +26,7 @@ class IndexFans extends BaseEndpoint
     public function index()
     {
         $filters = [];
+
         $limit = $this->request->input(static::ARGUMENT_LIMIT);
         $offset = $this->request->input(static::ARGUMENT_OFFSET);
         $order = $this->request->input(static::ARGUMENT_ORDER);
@@ -34,6 +35,12 @@ class IndexFans extends BaseEndpoint
 
         $state = $this->request->input(WechatFans::DB_FILED_STATE);
         $wechatId = $this->request->input(WechatFans::DB_FILED_OA_WECHAT_ID);
+        $wechatIds = $this->request->input('wechatIds');
+        if (empty($wechatIds) && !in_array($wechatId, $wechatIds)) {
+            return $this->resultForApiWithPagination(200, [], 0, $limit, $offset);
+        } else {
+            $filters[] = [WechatFans::DB_FILED_OA_WECHAT_ID, "in", $wechatIds];
+        }
         $raw = "1=1";
         $budding = [];
         if ($keyword) {

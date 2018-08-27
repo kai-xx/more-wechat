@@ -51,7 +51,7 @@ class IndexFans extends BaseEndpoint
         if ($state) $filters[] = [WechatFans::DB_FILED_STATE, "=", $state];
         if ($wechatId) $filters[] = [WechatFans::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $fans = WechatFans::where($filters)
-            ->whereIn(WechatFans::DB_FILED_ID, $wechatIds)
+            ->whereIn(WechatFans::DB_FILED_OA_WECHAT_ID, $wechatIds)
             ->whereRaw($raw,$budding)
             ->offset($offset)
             ->limit($limit)

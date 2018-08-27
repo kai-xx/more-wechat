@@ -52,7 +52,7 @@ class IndexIndustry extends BaseEndpoint
         if ($state) $filters[] = [Industry::DB_FILED_STATE, "=", $state];
         if ($wechatId) $filters[] = [Industry::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $industry = Industry::where($filters)
-            ->whereIn(Industry::DB_FILED_ID, $wechatIds)
+            ->whereIn(Industry::DB_FILED_OA_WECHAT_ID, $wechatIds)
             ->whereRaw($raw,$budding)
             ->offset($offset)
             ->limit($limit)

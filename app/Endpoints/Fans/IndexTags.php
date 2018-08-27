@@ -58,7 +58,7 @@ class IndexTags extends BaseEndpoint
         if ($state) $filters[] = [WechatFansTag::DB_FILED_STATE, "=", $state];
         if ($wechatId) $filters[] = [WechatFansTag::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $fans = WechatFansTag::where($filters)
-            ->whereIn(WechatFansTag::DB_FILED_ID, $wechatIds)
+            ->whereIn(WechatFansTag::DB_FILED_OA_WECHAT_ID, $wechatIds)
             ->whereRaw($raw,$budding)
             ->offset($offset)
             ->limit($limit)

@@ -52,7 +52,7 @@ class IndexMessage extends BaseEndpoint
         if ($state) $filters[] = [WechatMessage::DB_FILED_STATE, "=", $state];
         if ($wechatId) $filters[] = [WechatMessage::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $wechat = WechatMessage::where($filters)
-            ->whereIn(WechatMessage::DB_FILED_ID, $wechatIds)
+            ->whereIn(WechatMessage::DB_FILED_OA_WECHAT_ID, $wechatIds)
             ->whereRaw($raw, $budding)
             ->offset($offset)
             ->limit($limit)

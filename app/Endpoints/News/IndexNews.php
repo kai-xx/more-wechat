@@ -52,7 +52,7 @@ class IndexNews extends BaseEndpoint
         if ($state) $filters[] = [WechatGraphic::DB_FILED_STATE, "=", $state];
         if ($wechatId) $filters[] = [WechatGraphic::DB_FILED_OA_WECHAT_ID, "=", $wechatId];
         $news = WechatGraphic::where($filters)
-            ->whereIn(WechatGraphic::DB_FILED_ID, $wechatIds)
+            ->whereIn(WechatGraphic::DB_FILED_OA_WECHAT_ID, $wechatIds)
             ->whereRaw($raw,$budding)
             ->offset($offset)
             ->limit($limit)

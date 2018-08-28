@@ -31,8 +31,8 @@ class SendLog extends BaseEndpoint
         $order = $this->request->input(static::ARGUMENT_ORDER);
 
         $status = $this->request->input(IndustryMessageSendLog::DB_FILED_STATUS);
-        $messageId = $this->request->input(IndustryMessageSendLog::DB_FILED_INDUSTRY_MESSAGE_ID);
-
+        $messageId = $this->request->input('message_id');
+        if (empty($messageId)) return $this->resultForApiWithPagination(200, [], 0, $limit, $offset);
         if ($status) $filters[] = [IndustryMessageSendLog::DB_FILED_STATUS, "=", $status];
         if ($messageId) $filters[] = [IndustryMessageSendLog::DB_FILED_INDUSTRY_MESSAGE_ID, "=", $messageId];
         $wechat = IndustryMessageSendLog::where($filters)

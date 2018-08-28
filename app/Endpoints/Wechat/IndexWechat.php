@@ -34,7 +34,10 @@ class IndexWechat extends BaseEndpoint
 
         $type = $this->request->input(OaWechat::DB_FILED_TYPE);
         $state = $this->request->input(OaWechat::DB_FILED_STATE);
-
+        $wechatIds = $this->request->input('wechatIds');
+        if (empty($wechatIds)) {
+            return $this->resultForApiWithPagination(200, [], 0, $limit, $offset);
+        }
         $raw = "1=1";
         $budding = [];
         if ($keyword) {
@@ -51,6 +54,7 @@ class IndexWechat extends BaseEndpoint
         if ($type) $filters[] = [OaWechat::DB_FILED_TYPE, "=", $type];
         if ($state) $filters[] = [OaWechat::DB_FILED_STATE, "=", $state];
         $wechat = OaWechat::where($filters)
+            ->whereIn(OaWechat::DB_FILED_ID, $wechatIds)
             ->whereRaw($raw, $budding)
             ->offset($offset)
             ->limit($limit)

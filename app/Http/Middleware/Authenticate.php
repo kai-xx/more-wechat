@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Manager;
+use App\Models\OaWechat;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
@@ -38,7 +40,23 @@ class Authenticate
         if ($this->auth->guard($guard)->guest()) {
             return response('Unauthorized.', 401);
         }
-
+        $raw = "find_in_set(?,". Manager::DB_FILED_LEVEL_MAP .")";
+        $budding = [$this->auth->guard($guard)->user()->getkey()];
+        $wechat = OaWechat::whereRaw($raw,$budding)
+            ->leftJoin(
+                Manager::TABLE_NAME,
+                Manager::TABLE_NAME . '.' .Manager::DB_FILED_ID, "=",
+                OaWechat::TABLE_NAME . "." . OaWechat::DB_FILED_MANAGER_ID
+            )
+            ->select(OaWechat::TABLE_NAME . ".*")
+            ->get();
+        $wechatIds = $wechat->pluck(OaWechat::DB_FILED_ID)->all();
+        $request->offsetSet('wechatIds', $wechatIds);
+        if ($request->has("oa_wechat_id")) {
+            if (!in_array($request->has("oa_wechat_id"), $wechatIds)) {
+                return response('非法操作！', 401);
+            }
+        }
         return $next($request);
     }
 }

@@ -62,7 +62,7 @@ class BaseEndpoint extends Controller
     {
         foreach ($model->getFillable() as $item) {
             if ($this->request->has($item)) {
-                if ($item == "created_at" || $item == "updated_at" || $item == "deleted_at") continue;
+                if ($item == "created_at" || $item == "updated_at" || $item == "deleted_at" || $item == "id") continue;
                 $model->setAttribute($item, $this->request->input($item));
             }
         }

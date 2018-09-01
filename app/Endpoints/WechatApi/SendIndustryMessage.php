@@ -36,9 +36,10 @@ class SendIndustryMessage extends BaseApi
             if (!($industryMessage instanceof IndustryMessage)) return  $this->resultForApi(400, '请编辑模版消息内容');
             $wechat = OaWechat::find($industry->{Industry::DB_FILED_OA_WECHAT_ID});
             $token = $this->getToken($wechat->{OaWechat::DB_FILED_APP_ID}, $wechat->{OaWechat::DB_FILED_APP_SECRET});
-            $message = $this->getTemplateMessage($industryMessage);
             $this->getSendFans($industryMessage)
-                ->each(function ($item) use ($industryMessage, $token, $message, $industry) {
+                ->each(function ($item) use ($industryMessage, $token, $industry) {
+                    $message = $this->getTemplateMessage($industryMessage, $item);
+
                     $result = $this->sendTemplateMessage($token,
                         $item->{WechatFans::DB_FILED_OPEN_ID},
                         $industry->{Industry::DB_FILED_TEMPLATE_ID},
@@ -83,19 +84,22 @@ class SendIndustryMessage extends BaseApi
             ->get();
         return $fans;
     }
-    private function getTemplateMessage(IndustryMessage $industryMessage){
+    private function getTemplateMessage(IndustryMessage $industryMessage, $fans){
         $result = [];
         $content = json_decode($industryMessage->{IndustryMessage::DB_FILED_CONTENT}, true);
         foreach ($content as $key=>$value) {
             if ($key == "first") {
+                $value = str_replace("--昵称--",$fans->{WechatFans::DB_FILED_NIKE},$value);
                 $result[$key] = $value;
             }
             if ($key == "keywords") {
                 foreach ($value as $k=>$item) {
+                    $item = str_replace("--昵称--",$fans->{WechatFans::DB_FILED_NIKE},$item);
                     $result['keyword'. ($k+1)] = $item;
                 }
             }
             if ($key == "remark") {
+                $value = str_replace("--昵称--",$fans->{WechatFans::DB_FILED_NIKE},$value);
                 $result[$key] = $value;
             }
         }

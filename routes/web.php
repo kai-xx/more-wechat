@@ -21,6 +21,8 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
     $router->post('/authtest/login', 'Api\Login\AuthTestController@authenticate');
 
     $router->post('upload','Api\Upload\UploadController@upload');
+    $router->get('showDetail/{id}',"Api\News\NewsController@showDetail");
+
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->get('/auth/info', 'Api\Auth\AuthController@me');
         $router->post('/auth/logout', 'Api\Auth\AuthController@logout');
@@ -37,7 +39,6 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->put('update/{id}',"Api\News\NewsController@update");
             $router->get('show/{id}',"Api\News\NewsController@show");
             $router->delete('delete/{id}',"Api\News\NewsController@delete");
-            $router->get('showDetail/{id}',"Api\News\NewsController@showDetail");
         });
         $router->group(['prefix' => 'wechat'], function () use ($router) {
             $router->get('index',"Api\Wechat\WechatController@index");

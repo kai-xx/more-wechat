@@ -135,7 +135,9 @@ class BaseEndpoint extends Controller
      */
     protected function resultForApi(int $status = 200, $data, $error = ""){
         $class = new Collection;
-        $class->put(static::RESULT_DATA, $data);
+        $class->put(static::RESULT_DATA, [
+            static::RESULT_DATA => $data
+        ]);
         $class->put(static::RESULT_ERROR, $error);
         $class->put(static::RESULT_CODE, $status);
         app('log')->info("返回数据为："  , $class->toArray(), compact('time'));

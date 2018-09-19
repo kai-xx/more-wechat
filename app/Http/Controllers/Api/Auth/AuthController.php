@@ -31,7 +31,8 @@ class AuthController extends BaseEndpoint
         if ($token = $this->guard()->attempt($credentials)) {
             return $this->respondWithToken($token);
         }
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return $this->resultForApi(400,[],'登录失败');
+//        return response()->json([ 'error' => 'Unauthorized'], 200);
     }
 
     /**
@@ -42,9 +43,11 @@ class AuthController extends BaseEndpoint
     public function me()
     {
         $info = $this->guard()->user();
+        $info['code'] = 200;
         $info['roles'] = [$info->{Manager::DB_FILED_NAME}];
         app('log')->info("返回数据为："  , $info->toArray(), compact('time'));
-        return response()->json($info, 200);
+        return $this->resultForApi(200, $info);
+//        return response()->json($info, 200);
 
     }
 
@@ -56,8 +59,12 @@ class AuthController extends BaseEndpoint
     public function logout()
     {
         $this->guard()->logout();
+        return $this->resultForApi(200, ['message' => '登出成功！'], "登出成功");
 
-        return response()->json(['message' => '登出成功！']);
+//        return response()->json([
+//            'message' => '登出成功！',
+//            'code' => '200',
+//        ]);
     }
 
     /**
@@ -84,12 +91,17 @@ class AuthController extends BaseEndpoint
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60
         ], compact('time'));
-
-        return response()->json([
+        return $this->resultForApi(200,[
             'token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60
-        ],200);
+        ]);
+//        return response()->json([
+//            'code' => 200,
+//            'token' => $token,
+//            'token_type' => 'bearer',
+//            'expires_in' => $this->guard()->factory()->getTTL() * 60
+//        ],200);
     }
 
     /**

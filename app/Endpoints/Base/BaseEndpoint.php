@@ -99,6 +99,7 @@ class BaseEndpoint extends Controller
     const RESULT_FROM       = 'from';
     const RESULT_DATA       = 'data';
     const RESULT_ERROR      = 'message';
+    const RESULT_CODE       = 'code';
 
 
     /**
@@ -112,13 +113,17 @@ class BaseEndpoint extends Controller
      */
     protected function resultForApiWithPagination(int $status = 200, $data , int $total = 0, int $perPage = 20, int $from = 0, $error = ""){
         $class = new Collection;
-        $class->put(static::RESULT_TOTAL, $total);
-        $class->put(static::RESULT_PER_PAGE, $perPage);
-        $class->put(static::RESULT_FROM, $from);
-        $class->put(static::RESULT_DATA, $data);
+        $main = [
+            static::RESULT_DATA => $data,
+            static::RESULT_TOTAL    => $total,
+            static::RESULT_PER_PAGE => $perPage,
+            static::RESULT_FROM     => $from
+        ];
+        $class->put(static::RESULT_DATA, $main);
         $class->put(static::RESULT_ERROR, $error);
+        $class->put(static::RESULT_CODE, $status);
         app('log')->info("返回数据为："  , $class->toArray(), compact('time'));
-        return response()->json($class, $status);
+        return response()->json($class, 200);
     }
 
 
@@ -132,8 +137,9 @@ class BaseEndpoint extends Controller
         $class = new Collection;
         $class->put(static::RESULT_DATA, $data);
         $class->put(static::RESULT_ERROR, $error);
+        $class->put(static::RESULT_CODE, $status);
         app('log')->info("返回数据为："  , $class->toArray(), compact('time'));
-        return response()->json($class, $status);
+        return response()->json($class, 200);
     }
 
     protected function absolutePath($path) {

@@ -116,7 +116,7 @@ class SendMessage extends BaseApi
             $data = [
                 "title" => $item->{WechatGraphic::DB_FILED_TITLE},
                 "description" => $item->{WechatGraphic::DB_FILED_DETAIL},
-                "url" => !empty($url) ? $url : (env("WEB_URL") . "/news-detail/" . $item->{WechatGraphic::DB_FILED_ID}),
+                "url" => !empty($url) ? $url : (env("WEB_URL") . "/#/news-detail/" . $item->{WechatGraphic::DB_FILED_ID}),
                 "picurl" => $item->{WechatGraphic::DB_FILED_PATH}
             ];
             $news[] = $data;

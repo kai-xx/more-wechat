@@ -38,7 +38,12 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+//            return response('Unauthorized.', 401);
+            return response([
+                "code" => 401,
+                "message" => "未授权",
+                "data" => []
+            ], 200);
         }
         $raw = "find_in_set(?,". Manager::DB_FILED_LEVEL_MAP .")";
         $budding = [$this->auth->guard($guard)->user()->getkey()];
@@ -54,7 +59,11 @@ class Authenticate
         $request->offsetSet('wechatIds', $wechatIds);
         if ($request->has("oa_wechat_id")) {
             if (!in_array($request->has("oa_wechat_id"), $wechatIds)) {
-                return response('非法操作！', 401);
+                return response([
+                    "code" => 401,
+                    "message" => "非法操作",
+                    "data" => []
+                ], 200);
             }
         }
         return $next($request);

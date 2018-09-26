@@ -74,6 +74,14 @@ $router->group(['prefix' => "api/v1"], function () use ($router) {
             $router->put('update/{id}',"Api\IndustryMessage\IndustryMessageController@update");
             $router->get('show/{id}',"Api\IndustryMessage\IndustryMessageController@show");
         });
+
+        $router->group(['prefix' => 'menu'], function () use ($router) {
+            $router->get('index',"Api\Menu\MenuController@index");
+            $router->post('store',"Api\Menu\MenuController@store");
+            $router->put('update/{id}',"Api\Menu\MenuController@update");
+            $router->get('show/{id}',"Api\Menu\MenuController@show");
+            $router->delete('delete/{id}',"Api\Menu\MenuController@delete");
+        });
     });
 });
 
